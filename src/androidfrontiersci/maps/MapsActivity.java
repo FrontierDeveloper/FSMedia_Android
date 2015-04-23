@@ -99,24 +99,22 @@ public void onMapReady(GoogleMap map) {
         map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         for (Map.Entry<String, Object> project : JsonParser.ProjectData.entrySet()) {
-            String latitude = "";
-            String longitude = "";
+            Double latitude = 0.0;
+            Double longitude = 0.0;
 
             for (Map.Entry<String, Object> entry : ((Map<String, Object>) project.getValue())
                     .entrySet()) {
                 if (entry.getKey().equals("latitude")) {
-                    latitude = (String) entry.getValue();
+                    latitude = (Double) entry.getValue();
                 } else if (entry.getKey().equals("longitude")) {
-                    longitude = (String) entry.getValue();
+                    longitude = (Double) entry.getValue();
                 }
             }
 
             Marker temp_marker = map.addMarker(new MarkerOptions()
-                            .position(new LatLng(Double.parseDouble(latitude), Double.parseDouble(
-                                    longitude)))
+                            .position(new LatLng(latitude, longitude))
                             .title(project.getKey())
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable
-                                    .diamond_blue))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.diamond_blue))
                             .snippet("Tap to go to project description")
             );
 
