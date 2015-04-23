@@ -1,0 +1,9 @@
+<androidfrontiersci.textviews.CustomTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/middle"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:textSize="25sp"
+    android:paddingBottom="15dp"
+    android:layout_below="@+id/snippet"
+    tools:context="androidfrontiersci.about.AboutActivity" />

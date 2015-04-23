@@ -1,0 +1,8 @@
+<androidfrontiersci.textviews.CustomTextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/opening"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:textSize="25sp"
+        android:paddingBottom="15dp"
+        tools:context="androidfrontiersci.about.AboutActivity" /><!-- From: file:/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/res/layout/about_page_opening.xml -->

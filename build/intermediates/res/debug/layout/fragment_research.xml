@@ -1,0 +1,53 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_backrepeat"
+    tools:context="androidfrontiersci.research.ResearchActivity.CategoryContent" >
+
+    <RelativeLayout
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:paddingBottom="@dimen/activity_vertical_margin"
+    	android:paddingLeft="@dimen/activity_horizontal_margin"
+    	android:paddingRight="@dimen/activity_horizontal_margin"
+    	android:paddingTop="@dimen/activity_vertical_margin" >
+
+    	<TextView
+        	android:id="@+id/section_label"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" />
+    
+   		<ImageView
+        	android:id="@+id/project_image"
+        	android:layout_width="300dp"
+        	android:layout_height="195dp"
+            android:layout_gravity="top"
+        	android:layout_centerHorizontal="true"
+        	android:contentDescription="@string/image_desc" 
+        	android:background="@drawable/image_border" />
+    
+    	<androidfrontiersci.textviews.CustomTextView
+        	android:id="@+id/post_content"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_below="@+id/project_image"
+        	android:paddingTop="10dp"
+        	android:scrollbars="vertical"
+        	android:maxLines="10" />
+    
+    	<ListView
+    	    android:id="@+id/videos_link"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_below="@+id/post_content"
+        	android:paddingTop="10dp" />
+    	
+    	<ListView
+    	    android:id="@+id/maps_link"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_below="@+id/videos_link" />
+
+	</RelativeLayout>
+</ScrollView><!-- From: file:/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/res/layout/fragment_research.xml -->

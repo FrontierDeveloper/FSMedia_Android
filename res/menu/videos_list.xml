@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="androidfrontiersci.videos.VideosListActivity" >
+
+    <item
+        android:id="@+id/manage_downloads"
+        android:showAsAction="withText|ifRoom"
+        android:title= "" />
+</menu>

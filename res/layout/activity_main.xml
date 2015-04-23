@@ -1,0 +1,21 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="androidfrontiersci.MainActivity" >
+
+    <fragment
+        android:id="@+id/background"
+        android:name="androidfrontiersci.MainActivity$Background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/main_bg" />
+
+    <fragment
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="androidfrontiersci.MainActivity$Foreground"
+        tools:layout="@layout/fragment_main" />
+
+</RelativeLayout>

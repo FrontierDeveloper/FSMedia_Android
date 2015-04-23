@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="androidfrontiersci.videos.VideosListActivity" >
+
+    <item
+        android:id="@+id/manage_downloads"
+        android:showAsAction="withText|ifRoom"
+        android:title= "" />
+</menu>
+<!-- From: file:/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/res/menu/videos_list.xml -->

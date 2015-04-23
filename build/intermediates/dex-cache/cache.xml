@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/libs/YouTubeAndroidPlayerApi.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="29ccfbddf99584bddbaab62c0cf50dcd1c564e43">
+        <dex dex="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/build/intermediates/pre-dexed/debug/YouTubeAndroidPlayerApi-cf8fade3c335fc091fd721db470f61cd0d4c239a.jar" />
+    </item>
+    <item
+        jar="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="686344a780033e4ba22b926cd225f8d4941247e6">
+        <dex dex="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/build/intermediates/pre-dexed/debug/classes-02f435c38cc1594d0a8413dd348df1db941c7a69.jar" />
+    </item>
+    <item
+        jar="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
+        <dex dex="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/build/intermediates/pre-dexed/debug/classes-53faf2c943fc06253d48dc6b0bbef5127c0d9457.jar" />
+    </item>
+    <item
+        jar="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/libs/commons-collections4-4.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="da217367fd25e88df52ba79e47658d4cf928b0d1">
+        <dex dex="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/build/intermediates/pre-dexed/debug/commons-collections4-4.0-e960386ad89c0c1da2dc0a043af24ef2b676be87.jar" />
+    </item>
+    <item
+        jar="/Users/jrbyam/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.0/support-annotations-21.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="1a578b9607b36266c63d43a4fa0ab5664dbe911e">
+        <dex dex="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/build/intermediates/pre-dexed/debug/support-annotations-21.0.0-555f3199f0e2345ed9656b0faa941ba0215e5aa2.jar" />
+    </item>
+    <item
+        jar="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/libs/commons-lang3-3.3.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="659861b4acde07a0527211e40d256119face1d15">
+        <dex dex="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/build/intermediates/pre-dexed/debug/commons-lang3-3.3.2-312d58c37c18e55230aa8ead6bb85897c1c1b332.jar" />
+    </item>
+    <item
+        jar="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/libs/android-zoom-view.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="8ea0253f9d7cff1661f29d4f090773471164f785">
+        <dex dex="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/build/intermediates/pre-dexed/debug/android-zoom-view-f4fa718de9d77995864e84385694dc3194ff8d23.jar" />
+    </item>
+    <item
+        jar="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/libs/gson-2.3.1.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
+        <dex dex="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/build/intermediates/pre-dexed/debug/gson-2.3.1-ecd2604c9ebc5d772a29a543a4be32365b40f293.jar" />
+    </item>
+    <item
+        jar="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/libs/internal_impl-21.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="1609e6d42d0480b0f4188e2c29f75388fa12a8f0">
+        <dex dex="/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/build/intermediates/pre-dexed/debug/internal_impl-21.0.0-558ab9508348f86b68e6ab569694a41ed7598bb4.jar" />
+    </item>
+
+</items>

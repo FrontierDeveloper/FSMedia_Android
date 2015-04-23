@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Frontier Scientists</string>
+    <string name="image_desc">Image Description</string>
+    <string name="xml_temp">Getting Data from the Server</string>
+    <string name="title_activity_research">Research</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_videos">Videos</string>
+    <string name="title_activity_articles">Articles</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!--Maps strings-->
+        <string name="title_activity_maps">Maps</string>
+        <string name ="infoWindow_snippet">Tap to go to project description</string>
+        <string name="reset_map">Reset Map</string>
+
+    <!--Ask-a-Scientist strings-->
+        <string name="title_activity_ask_a_scientist">Ask A Scientist</string>
+        <string name="AskASci_blurb">Here at Frontier Scientists we have researchers on call to answer any questions you have about the information you find in this app!</string>
+        <string name="ask_email">sfarabaugh@alaska.edu</string>
+        <string name="name_hint">Your Name</string>
+        <string name="subject_hint">Subject</string>
+        <string name="question_hint">Your Question</string>
+        <string name="bio_button">Play Biography</string>
+        <string name="ask_email_tag">[frontsci] </string>
+
+    <!--About strings-->
+        <string name="title_activity_about">About</string>
+        <string name="dev_email">jrbyam@alaska.edu, sfarabaugh@alaska.edu</string>
+        <string name="contact_devs">Contact Developers</string>
+        <string name="dev_email_tag">[frontiersciDevelopers] </string>
+
+    <!--Videos Strings-->
+    <string name="manage_downloads">Manage Downloads</string>
+</resources>
