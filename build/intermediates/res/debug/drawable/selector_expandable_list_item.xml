@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:exitFadeDuration="@android:integer/config_mediumAnimTime">
-
-    <item android:drawable="@android:color/darker_gray" android:state_pressed="true"/>
-
-</selector><!-- From: file:/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/res/drawable/selector_expandable_list_item.xml -->

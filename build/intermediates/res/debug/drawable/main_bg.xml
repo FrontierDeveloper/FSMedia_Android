@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item>
-        <bitmap
-            android:src="@drawable/binding_repeat" />
-    </item>
-</layer-list>
-<!-- From: file:/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/res/drawable/main_bg.xml -->

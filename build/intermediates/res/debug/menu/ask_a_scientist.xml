@@ -1,9 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="androidfrontiersci.askascientist.AskAScientistActivity" >
-    <item
-        android:id="@+id/email_send"
-        android:showAsAction="withText|always"
-        android:title="Send" />
-    </menu>
-<!-- From: file:/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/res/menu/ask_a_scientist.xml -->

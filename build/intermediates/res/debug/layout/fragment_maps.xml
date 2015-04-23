@@ -1,7 +1,0 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/map"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:name="com.google.android.gms.maps.MapFragment" />
-
-<!-- From: file:/Users/jrbyam/Documents/FrontierScientists/Android/AndroidFrontierSci/res/layout/fragment_maps.xml -->
