@@ -15,10 +15,10 @@ import java.net.URLConnection;
 import org.apache.http.util.ByteArrayBuffer;
 
 /*
-    This is the XmlDownloader class, an asynchronous task.
-    It is executed either when dumpedSelectQuery.xml has not yet been saved to the device or when an
+    This is the JsonDownloader class, an asynchronous task.
+    It is executed either when frontSciData.json has not yet been saved to the device or when an
     updated version of the file is available. This task very simply downloads and stores
-    dumpedSelectQuery.xml.
+    frontSciData.json.
 */
 public class JsonDownloader extends AsyncTask<Void, Void, Void> {
 
@@ -41,7 +41,7 @@ public class JsonDownloader extends AsyncTask<Void, Void, Void> {
 
     /*
         AsyncTask's usual doInBackground() function.
-        It downloads and stores dumpedSelectQuery.xml.
+        It downloads and stores frontSciData.json.
     */
     @Override
     protected Void doInBackground(Void... params) {
@@ -80,13 +80,13 @@ public class JsonDownloader extends AsyncTask<Void, Void, Void> {
 
     /*
         onPostExecute
-        After the task is completed, the correct interface function is called to parse the xml file.
-        If the file was already stored but needed to be updated, it was parsed before this task was
-        executed. Thus, it must be re-parsed. If the file was not previously stored, it can be parsed
-        for the first time.
-        The distinction here is made because the task of one instance of a class that extends AsyncTask
-        cannot be executed more than once. So, if the parsing must be done twice, separate instances
-        must be used.
+        After the task is completed, the correct interface function is called to parse the json
+        file. If the file was already stored but needed to be updated, it was parsed before this
+        task was executed. Thus, it must be re-parsed. If the file was not previously stored, it can
+        be parsed for the first time.
+        The distinction here is made because the task of one instance of a class that extends
+        AsyncTask cannot be executed more than once. So, if the parsing must be done twice, separate
+        instances must be used.
     */
     @Override
     protected void onPostExecute(Void result) {
