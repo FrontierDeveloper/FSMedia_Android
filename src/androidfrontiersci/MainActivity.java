@@ -102,14 +102,14 @@ public class MainActivity extends FragmentActivity implements AsyncFollowUp {
         jsonReparser = new JsonParser(getApplicationContext());
         imageProcessor = new ImageProcessor(getApplicationContext());
         // Set up the post task delegation
-        jsonDownloader.delegate = jsonParser.delegate = jsonReparser.delegate = imageProcessor.delegate
-                = this;
+        jsonDownloader.delegate = jsonParser.delegate = jsonReparser.delegate =
+                imageProcessor.delegate = this;
 
         progress = new CustomProgressDialog(MainActivity.this); // Set progress to custom dialog.
         if (frontSciData.exists()) {
             progress.show();
-            jsonParser.execute(); // Skip download, parse the stored dumpedSelectQuery and create the
-                                 // maps by which the data can be easily accessed
+            jsonParser.execute(); // Skip download, parse the stored dumpedSelectQuery and create
+                                  // the maps by which the data can be easily accessed
         } else {
             checkNetworkAndDownload(); // Need internet to continue
         }

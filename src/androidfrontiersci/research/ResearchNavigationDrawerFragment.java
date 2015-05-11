@@ -35,8 +35,7 @@ import java.util.List;
 /*
     This is the ResearchNavigationDrawerFragment fragment, used to display the research categories
     in the Research section.
-    Its layout file is fragment_navigation_drawer.xml.
-    It contains a ListView with the research categories and appears as an overlay off the left side
+    Its layout file is fragment_navigation_drawert contains a ListView with the research categories and appears as an overlay off the left side
     of the screen. While the drawer is open, the rest of the screen will display the current
     selected category content but will be shadowed. Selecting an item on the drawer will take you
     that categories content. Selecting the shadowed region, selecting the left side of the action
@@ -100,8 +99,8 @@ public class ResearchNavigationDrawerFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-		mDrawerListView = (ListView) inflater.inflate(R.layout.fragment_navigation_drawer,
-                container, false);
+		mDrawerListView = (ListView) inflater.inflate(R.layout
+                        .fragment_navigation_drawer, container, false);
 		mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 		    @Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -112,7 +111,7 @@ public class ResearchNavigationDrawerFragment extends Fragment {
 
         BitmapDrawable verticalRepeatBg = (BitmapDrawable) getResources().getDrawable(
                 R.drawable.navigation_bg);
-        verticalRepeatBg.setTileModeY(Shader.TileMode.REPEAT);
+        verticalRepeatBg.setTileModeXY(Shader.TileMode.MIRROR, Shader.TileMode.REPEAT);
         mDrawerListView.setBackground(verticalRepeatBg);
         
         List<RowItem> rowItems;
