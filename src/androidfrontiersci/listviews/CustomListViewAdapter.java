@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidfrontiersci.MainActivity;
 import androidfrontiersci.textviews.CustomTextView;
 
-import com.example.androidfrontiersci.R;
+import frontsci.android.R;
 
 import java.util.List;
 

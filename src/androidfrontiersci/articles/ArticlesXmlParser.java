@@ -8,7 +8,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.example.androidfrontiersci.R;
+import frontsci.android.R;
 
 import androidfrontiersci.MainActivity;
 

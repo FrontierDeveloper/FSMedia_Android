@@ -28,7 +28,7 @@ import androidfrontiersci.maps.MapsActivity;
 import androidfrontiersci.research.ResearchActivity;
 import androidfrontiersci.videos.VideosListActivity;
 
-import com.example.androidfrontiersci.R;
+import frontsci.android.R;
 
 import java.io.BufferedReader;
 import java.io.File;

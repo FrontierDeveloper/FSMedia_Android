@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.androidfrontiersci.R;
+import frontsci.android.R;
 
 import java.util.List;
 import java.util.Map;

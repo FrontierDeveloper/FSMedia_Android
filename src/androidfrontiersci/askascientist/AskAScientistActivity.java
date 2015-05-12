@@ -1,7 +1,7 @@
 package androidfrontiersci.askascientist;
 
-import com.example.androidfrontiersci.R;
-import com.example.androidfrontiersci.R.id;
+import frontsci.android.R;
+import frontsci.android.R.id;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 
 import android.app.Activity;

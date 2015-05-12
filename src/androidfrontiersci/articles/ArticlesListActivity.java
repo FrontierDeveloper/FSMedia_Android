@@ -16,7 +16,7 @@ import androidfrontiersci.MainActivity;
 import androidfrontiersci.listviews.CustomListViewAdapter;
 import androidfrontiersci.listviews.RowItem;
 
-import com.example.androidfrontiersci.R;
+import frontsci.android.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;

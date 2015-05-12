@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import androidfrontiersci.MainActivity;
 
-import com.example.androidfrontiersci.R;
+import frontsci.android.R;
 
 /*
     This is ArticleActivity, started from ArticlesListActivity to display a WebView with the

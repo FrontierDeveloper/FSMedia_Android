@@ -13,7 +13,7 @@ import androidfrontiersci.JsonParser;
 import androidfrontiersci.MainActivity;
 import androidfrontiersci.research.ResearchActivity;
 
-import com.example.androidfrontiersci.R;
+import frontsci.android.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;

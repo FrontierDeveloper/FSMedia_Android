@@ -12,7 +12,7 @@ import androidfrontiersci.JsonParser;
 import androidfrontiersci.listviews.ExpandableListAdapter;
 import androidfrontiersci.MainActivity;
 
-import com.example.androidfrontiersci.R;
+import frontsci.android.R;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;

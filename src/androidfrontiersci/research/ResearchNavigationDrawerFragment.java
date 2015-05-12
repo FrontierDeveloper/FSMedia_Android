@@ -27,7 +27,7 @@ import androidfrontiersci.MainActivity;
 import androidfrontiersci.listviews.CustomListViewAdapter;
 import androidfrontiersci.listviews.RowItem;
 
-import com.example.androidfrontiersci.R;
+import frontsci.android.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +35,14 @@ import java.util.List;
 /*
     This is the ResearchNavigationDrawerFragment fragment, used to display the research categories
     in the Research section.
-    Its layout file is fragment_navigation_drawert contains a ListView with the research categories and appears as an overlay off the left side
-    of the screen. While the drawer is open, the rest of the screen will display the current
-    selected category content but will be shadowed. Selecting an item on the drawer will take you
-    that categories content. Selecting the shadowed region, selecting the left side of the action
-    bar and swiping the navigation drawer from right to left will all close the drawer and un-shadow
-    the current category. To reopen the drawer, simply press the left side of the action bar or
-    swipe finger from off the left side onto the screen.
+    Its layout file is fragment_navigation_drawer.xml. It contains a ListView with the research
+    categories and appears as an overlay off the left side of the screen. While the drawer is open,
+    the rest of the screen will display the current selected category content but will be shadowed.
+    Selecting an item on the drawer will take you that categories content. Selecting the shadowed
+    region, selecting the left side of the action bar and swiping the navigation drawer from right
+    to left will all close the drawer and un-shadow the current category. To reopen the drawer,
+    simply press the left side of the action bar or swipe finger from off the left side onto the
+    screen.
 */
 public class ResearchNavigationDrawerFragment extends Fragment {
 

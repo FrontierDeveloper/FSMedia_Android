@@ -14,7 +14,7 @@ import androidfrontiersci.listviews.ExpandableListAdapter;
 import androidfrontiersci.MainActivity;
 import androidfrontiersci.research.ResearchActivity;
 
-import com.example.androidfrontiersci.R;
+import frontsci.android.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

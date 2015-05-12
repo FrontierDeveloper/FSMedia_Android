@@ -27,7 +27,7 @@ import androidfrontiersci.videos.VideoDeleter;
 import androidfrontiersci.videos.VideoDownloader;
 import androidfrontiersci.videos.VideosListActivity;
 
-import com.example.androidfrontiersci.R;
+import frontsci.android.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
