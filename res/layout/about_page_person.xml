@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="6dp"
         android:background="@drawable/image_border"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:id="@+id/person_image"
@@ -35,8 +35,7 @@
         android:id="@+id/person_text"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_toStartOf="@+id/person_image_caption"
-        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
         android:textSize="25sp" />
 
 </RelativeLayout>

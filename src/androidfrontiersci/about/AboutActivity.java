@@ -5,11 +5,19 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Layout;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.LeadingMarginSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,21 +60,46 @@ public class AboutActivity extends Activity {
         // Add all three snippets, two with the image on the left and one with the image on the
         // right.
         int idx = 0;
-        for (Map<String, String> snippet : ((List<Map<String, String>>) JsonParser.about_page_info
+        for (final Map<String, String> snippet : ((List<Map<String, String>>) JsonParser.about_page_info
                 .get("snippets"))) {
-            View snippet_view;
-            if ((idx % 2) == 0) {
-                snippet_view = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                        .inflate(R.layout.about_page_snippet_left, null);
-            } else {
-                snippet_view = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                        .inflate(R.layout.about_page_snippet_right, null);
-            }
-            ImageView imageView = (ImageView) snippet_view.findViewById(R.id.snippet_image);
-            TextView textView = (TextView) snippet_view.findViewById(R.id.snippet_text);
+            View snippet_view = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                    .inflate(R.layout.about_page_snippet, null);
+            final ImageView imageView = (ImageView) snippet_view.findViewById(R.id.snippet_image);
+            final TextView textView = (TextView) snippet_view.findViewById(R.id.snippet_text);
             imageView.setBackground(ImageProcessor.about_snippet_images.get(idx));
-            textView.setText(snippet.get("text"));
+
+            final ViewTreeObserver vto = imageView.getViewTreeObserver();
+            vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    int finalHeight = imageView.getMeasuredHeight();
+                    int finalWidth = imageView.getMeasuredWidth();
+                    String text = snippet.get("text");
+
+                    int allTextStart = 0;
+                    int allTextEnd = text.length() - 1;
+
+                    // Calculate the number of lines to indent.
+                    int lines;
+                    Rect bounds = new Rect();
+                    textView.getPaint().getTextBounds(text.substring(0,10), 0, 1, bounds);
+                    float fontSpacing = textView.getPaint().getFontSpacing();
+                    lines = (int) (finalHeight/fontSpacing);
+
+                    // Build the layout with LeadingMarginSpan2.
+                    MyLeadingMarginSpan2 span = new MyLeadingMarginSpan2(lines, finalWidth +10 );
+                    SpannableString SS = new SpannableString(text);
+                    SS.setSpan(span, allTextStart, allTextEnd,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    textView.setText(SS);
+
+                }
+            });
             filler.addView(snippet_view);
+
+
+
             idx++;
         }
 
@@ -80,16 +113,47 @@ public class AboutActivity extends Activity {
 
         // Add in all the people.
         idx = 0;
-        for (Map<String, String> person : ((List<Map<String, String>>) JsonParser.about_page_info
+        for (final Map<String, String> person : ((List<Map<String, String>>) JsonParser.about_page_info
                 .get("people"))) {
             View person_view = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                     .inflate(R.layout.about_page_person, null);
             ImageView imageView = (ImageView) person_view.findViewById(R.id.person_image);
             TextView caption = (TextView) person_view.findViewById(R.id.person_caption);
-            TextView textView = (TextView) person_view.findViewById(R.id.person_text);
+            final TextView textView = (TextView) person_view.findViewById(R.id.person_text);
             imageView.setBackground(ImageProcessor.about_people_images.get(idx));
             caption.setText(person.get("caption"));
-            textView.setText(person.get("text"));
+            final LinearLayout linearLayout = (LinearLayout) person_view.findViewById(
+                    R.id.person_image_caption);
+
+            final ViewTreeObserver vto = imageView.getViewTreeObserver();
+            vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    linearLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    int finalHeight = linearLayout.getMeasuredHeight();
+                    int finalWidth = linearLayout.getMeasuredWidth();
+                    String text = person.get("text");
+
+                    int allTextStart = 0;
+                    int allTextEnd = text.length() - 1;
+
+                    // Calculate the number of lines to indent.
+                    int lines;
+                    Rect bounds = new Rect();
+                    textView.getPaint().getTextBounds(text.substring(0,10), 0, 1, bounds);
+                    float fontSpacing = textView.getPaint().getFontSpacing();
+                    lines = (int) (finalHeight/fontSpacing);
+
+                    // Build the layout with LeadingMarginSpan2.
+                    MyLeadingMarginSpan2 span = new MyLeadingMarginSpan2(lines, finalWidth +10 );
+                    SpannableString SS = new SpannableString(text);
+                    SS.setSpan(span, allTextStart, allTextEnd,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    textView.setText(SS);
+
+                }
+            });
+
             filler.addView(person_view);
             idx++;
         }
@@ -159,6 +223,35 @@ public class AboutActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
 }
+
+class MyLeadingMarginSpan2 implements LeadingMarginSpan.LeadingMarginSpan2 {
+    private int margin;
+    private int lines;
+
+    MyLeadingMarginSpan2(int lines, int margin) {
+        this.margin = margin;
+        this.lines = lines;
+    }
+
+    // Returns the value to which indentation must be added.
+    @Override
+    public int getLeadingMargin(boolean first) {
+        if (first) {
+            return margin;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    @Override
+    public void drawLeadingMargin(Canvas c, Paint p, int x, int dir, int top, int baseline, int
+            bottom, CharSequence text, int start, int end, boolean first, Layout layout) {}
+
+    @Override
+    public int getLeadingMarginLineCount() {
+        return lines;
+    }
+}
+
