@@ -32,8 +32,8 @@ import androidfrontiersci.ImageProcessor;
 import androidfrontiersci.JsonParser;
 
 /*
-    This is AboutActivity, a very simple class that displays the about_page_opening string defined in
-    XmlParser.java in a ScrollView.
+    This is AboutActivity, a class that displays the content of about_page_info defined in
+    JsonParser.java in a ScrollView.
     Its layout file is activity_about.xml.
     Its menu file is about.xml.
     The "Contact Developers" option of the action bar opens an email client to start the message
@@ -60,46 +60,16 @@ public class AboutActivity extends Activity {
         // Add all three snippets, two with the image on the left and one with the image on the
         // right.
         int idx = 0;
-        for (final Map<String, String> snippet : ((List<Map<String, String>>) JsonParser.about_page_info
-                .get("snippets"))) {
+        for (final Map<String, String> snippet : ((List<Map<String, String>>) JsonParser
+                .about_page_info.get("snippets"))) {
             View snippet_view = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                     .inflate(R.layout.about_page_snippet, null);
             final ImageView imageView = (ImageView) snippet_view.findViewById(R.id.snippet_image);
             final TextView textView = (TextView) snippet_view.findViewById(R.id.snippet_text);
             imageView.setBackground(ImageProcessor.about_snippet_images.get(idx));
-
-            final ViewTreeObserver vto = imageView.getViewTreeObserver();
-            vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    int finalHeight = imageView.getMeasuredHeight();
-                    int finalWidth = imageView.getMeasuredWidth();
-                    String text = snippet.get("text");
-
-                    int allTextStart = 0;
-                    int allTextEnd = text.length() - 1;
-
-                    // Calculate the number of lines to indent.
-                    int lines;
-                    Rect bounds = new Rect();
-                    textView.getPaint().getTextBounds(text.substring(0,10), 0, 1, bounds);
-                    float fontSpacing = textView.getPaint().getFontSpacing();
-                    lines = (int) (finalHeight/fontSpacing);
-
-                    // Build the layout with LeadingMarginSpan2.
-                    MyLeadingMarginSpan2 span = new MyLeadingMarginSpan2(lines, finalWidth +10 );
-                    SpannableString SS = new SpannableString(text);
-                    SS.setSpan(span, allTextStart, allTextEnd,
-                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    textView.setText(SS);
-
-                }
-            });
+            // This creates text wrapping.
+            makeSpan(imageView, textView, snippet);
             filler.addView(snippet_view);
-
-
-
             idx++;
         }
 
@@ -113,8 +83,8 @@ public class AboutActivity extends Activity {
 
         // Add in all the people.
         idx = 0;
-        for (final Map<String, String> person : ((List<Map<String, String>>) JsonParser.about_page_info
-                .get("people"))) {
+        for (final Map<String, String> person : ((List<Map<String, String>>) JsonParser
+                .about_page_info.get("people"))) {
             View person_view = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                     .inflate(R.layout.about_page_person, null);
             ImageView imageView = (ImageView) person_view.findViewById(R.id.person_image);
@@ -124,40 +94,11 @@ public class AboutActivity extends Activity {
             caption.setText(person.get("caption"));
             final LinearLayout linearLayout = (LinearLayout) person_view.findViewById(
                     R.id.person_image_caption);
-
-            final ViewTreeObserver vto = imageView.getViewTreeObserver();
-            vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    linearLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    int finalHeight = linearLayout.getMeasuredHeight();
-                    int finalWidth = linearLayout.getMeasuredWidth();
-                    String text = person.get("text");
-
-                    int allTextStart = 0;
-                    int allTextEnd = text.length() - 1;
-
-                    // Calculate the number of lines to indent.
-                    int lines;
-                    Rect bounds = new Rect();
-                    textView.getPaint().getTextBounds(text.substring(0,10), 0, 1, bounds);
-                    float fontSpacing = textView.getPaint().getFontSpacing();
-                    lines = (int) (finalHeight/fontSpacing);
-
-                    // Build the layout with LeadingMarginSpan2.
-                    MyLeadingMarginSpan2 span = new MyLeadingMarginSpan2(lines, finalWidth +10 );
-                    SpannableString SS = new SpannableString(text);
-                    SS.setSpan(span, allTextStart, allTextEnd,
-                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    textView.setText(SS);
-
-                }
-            });
-
+            // This creates text wrapping.
+            makeSpan(linearLayout, textView, person);
             filler.addView(person_view);
             idx++;
         }
-
 	}
 
 /*
@@ -200,13 +141,13 @@ public class AboutActivity extends Activity {
 
                             Intent intent = new Intent(Intent.ACTION_SEND);
                             intent.setType("message/rfc822");
-                            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.dev_email)});
+                            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.
+                                    dev_email)});
                             intent.putExtra(Intent.EXTRA_SUBJECT, email_tag + subject_text);
 
                             try { // If there is an email client on the device...
-                                startActivity(Intent.createChooser(intent, "Send mail...")); // the client is opened
-                                // to allow the user to
-                                // start the message.
+                                // the client is opened to allow the user to start the message.
+                                startActivity(Intent.createChooser(intent, "Send mail..."));
                             } catch (android.content.ActivityNotFoundException ex) {
 //                                Toast.makeText(this, "There are no email clients installed.",
 //                                        Toast.LENGTH_SHORT).show();
@@ -223,6 +164,38 @@ public class AboutActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+/*
+    Helper function:
+*/
+    void makeSpan(final View image_v, final TextView text_v, final Map<String, String> block) {
+        final ViewTreeObserver vto = image_v.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                image_v.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                int finalHeight = image_v.getMeasuredHeight();
+                int finalWidth = image_v.getMeasuredWidth();
+                String text = block.get("text");
+
+                int allTextStart = 0;
+                int allTextEnd = text.length() - 1;
+
+                // Calculate the number of lines to indent.
+                int lines;
+                Rect bounds = new Rect();
+                text_v.getPaint().getTextBounds(text.substring(0,10), 0, 1, bounds);
+                float fontSpacing = text_v.getPaint().getFontSpacing();
+                lines = (int) (finalHeight/fontSpacing);
+
+                // Build the layout with LeadingMarginSpan2.
+                MyLeadingMarginSpan2 span = new MyLeadingMarginSpan2(lines, finalWidth +10 );
+                SpannableString SS = new SpannableString(text);
+                SS.setSpan(span, allTextStart, allTextEnd,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                text_v.setText(SS);
+            }
+        });
+    }
 }
 
 class MyLeadingMarginSpan2 implements LeadingMarginSpan.LeadingMarginSpan2 {
