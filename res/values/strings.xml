@@ -20,7 +20,7 @@
     <!--Ask-a-Scientist strings-->
         <string name="title_activity_ask_a_scientist">Ask A Scientist</string>
         <string name="AskASci_blurb">Here at Frontier Scientists we have researchers on call to answer any questions you have about the information you find in this app!</string>
-        <string name="ask_email">sfarabaugh@alaska.edu</string>
+        <string name="ask_email">liz@frontierscientists.com</string>
         <string name="name_hint">Your Name</string>
         <string name="subject_hint">Subject</string>
         <string name="question_hint">Your Question</string>

@@ -41,11 +41,6 @@ import java.util.Map;
 */
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
-/*
-    This public variable is defined in this class and accessed in VideoActivity.java.
-*/
-    public static String current_research_category;
-
     // The class' private variables
     private static String hd_address;
     private static String compressed_address;
@@ -303,8 +298,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         VideoActivity.video_name = video_name;
         System.out.println(VideoActivity.video_name);
         VideosListActivity.project_name = _listDataHeader.get(groupPosition);
-        current_research_category = MainActivity.getResearchCategory(
-                VideosListActivity.project_name);
         Intent intent = new Intent(context, VideoActivity.class);
         context.startActivity(intent);
     }
@@ -319,8 +312,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         // Reset values needed
         VideoDownloader.name_of_video_to_be_downloaded = video_name;
         VideosListActivity.project_name = _listDataHeader.get(groupPosition);
-        current_research_category = MainActivity.getResearchCategory(
-                VideosListActivity.project_name);
         hd_address = (String) ((Map<String, Object>) ((Map<String, Object>) ((Map<String,
                 Object>) JsonParser.ProjectData.get(VideosListActivity.project_name)).get("videos"))
                 .get(video_name)).get("MP4");

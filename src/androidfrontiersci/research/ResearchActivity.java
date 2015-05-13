@@ -182,9 +182,6 @@ public class ResearchActivity extends Activity implements
 	        rootView.setTag(holder);
 	        
 	        holder.project_image.setImageDrawable(ImageProcessor.project_images.get(mTitle));
-
-            String current_research_category = MainActivity.getResearchCategory(mTitle);
-
             holder.post_content.setText((String) ((Map<String, Object>) JsonParser.ProjectData
                     .get(mTitle)).get("project_description"));
 	        	

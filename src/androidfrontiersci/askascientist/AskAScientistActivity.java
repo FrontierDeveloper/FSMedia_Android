@@ -32,8 +32,6 @@ public class AskAScientistActivity extends Activity {
     public static String your_name;
     public static String question;
     public static String subject;
-//    public static String all_fields;
-    public static String front_sci = "[frontiersci] ";
 
     public static String scientist_name;
     public static String scientist_bio;
@@ -48,7 +46,6 @@ public class AskAScientistActivity extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
-
     }
 
 	@Override
@@ -60,10 +57,8 @@ public class AskAScientistActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-
+		// Handle action bar item clicks here. The action bar will automatically handle clicks on
+		// the Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
 
         int id = item.getItemId();
         switch (id){
@@ -76,38 +71,34 @@ public class AskAScientistActivity extends Activity {
                 subject = subject_et.getText().toString();
                 question = question_et.getText().toString();
 
-//                all_fields = your_name + subject + question;
-                if (your_name.equals("") || subject.equals("") || question.equals("")) {
-                    // TODO Change this dialog to custom
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-                    alertDialogBuilder.setTitle("Error");
-                    alertDialogBuilder
-                            .setMessage("Fill out all of your information!")
-                            .setCancelable(false)
-                            .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // if this button is clicked, just close
-                                    // the dialog box and do nothing
-                                    dialog.cancel();
+                String all_fields = your_name + subject + question;
+                if (all_fields.equals("")) {
+                    View simple_dialog = getLayoutInflater().inflate(R.layout.dialog_simple, null);
+                    TextView message = (TextView) simple_dialog.findViewById(R.id.message);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    message.setText("Fill out all of your information!");
+                    builder.setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // The user understands.
                                 }
                             });
-
-                    // create alert dialog
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-
-                    // show it
-                    alertDialog.show();
+                    builder.setView(simple_dialog);
+                    builder.show();
                     return true;
                 } else {
                     Intent i = new Intent(Intent.ACTION_SEND);
                     i.setType("message/rfc822");
                     i.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.ask_email)});
                     i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.ask_email_tag) + subject);
-                    i.putExtra(Intent.EXTRA_TEXT   , question);
+                    i.putExtra(Intent.EXTRA_TEXT, question);
                     try {
                         startActivity(Intent.createChooser(i, "Send mail..."));
                     } catch (android.content.ActivityNotFoundException ex) {
-                        Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "There are no email clients installed.", Toast
+                                .LENGTH_SHORT).show();
                     }
                     return true;
                 }
@@ -115,9 +106,9 @@ public class AskAScientistActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
+/*
+	A placeholder fragment containing a simple view.
+*/
 	public static class PlaceholderFragment extends Fragment {
 
 		public PlaceholderFragment() {
@@ -176,6 +167,5 @@ public class AskAScientistActivity extends Activity {
             });
 			return rootView;
 		}
-
 	}
 }

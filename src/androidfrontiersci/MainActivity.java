@@ -201,22 +201,6 @@ public class MainActivity extends FragmentActivity implements AsyncFollowUp {
         // and return that video's name.
         return name;
     }
-    // getResearchCategory
-    // This function takes in the actual title of a project and returns the research category it
-    // belongs to. This function handles the inconsistencies of the title-to-category relationship.
-    public static String getResearchCategory(String project_title) {
-        String current_research_category = project_title.toLowerCase().replace("-", "")
-                .replace("'", "").replaceAll("\\?", "").replaceAll("\\s", "");
-        // There are a few instances when the difference between the displayable name (the project
-        // title) and the research category is not just spaces, a hyphen or punctuation. Those
-        // require their own cases.
-        if (project_title.equals("Grizzlies")) {
-            current_research_category = "denalibearsgrizzlies";
-        } else if (project_title.equals("Climate Change Watch")) {
-            current_research_category = "climatechangewatchlist";
-        }
-        return current_research_category;
-    }
     // checkNetwork
     // This function is called from onCreate(). If there is an internet connection, it starts the
     // xml download. If there isn't a connection, it goes through a retry dialog either until there
