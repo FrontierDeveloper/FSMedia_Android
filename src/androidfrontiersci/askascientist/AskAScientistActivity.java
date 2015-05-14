@@ -71,8 +71,7 @@ public class AskAScientistActivity extends Activity {
                 subject = subject_et.getText().toString();
                 question = question_et.getText().toString();
 
-                String all_fields = your_name + subject + question;
-                if (all_fields.equals("")) {
+                if (your_name.equals("") || subject.equals("") || question.equals("")) {
                     View simple_dialog = getLayoutInflater().inflate(R.layout.dialog_simple, null);
                     TextView message = (TextView) simple_dialog.findViewById(R.id.message);
 
