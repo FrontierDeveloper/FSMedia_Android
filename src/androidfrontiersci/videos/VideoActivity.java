@@ -1,11 +1,15 @@
 package androidfrontiersci.videos;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.MediaController;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidfrontiersci.JsonParser;
@@ -13,6 +17,7 @@ import androidfrontiersci.listviews.ExpandableListAdapter;
 import androidfrontiersci.MainActivity;
 
 import frontsci.android.R;
+import com.google.android.youtube.player.YouTubeApiServiceUtil;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;

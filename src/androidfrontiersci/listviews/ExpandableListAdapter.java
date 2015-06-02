@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,6 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.youtube.player.YouTubeApiServiceUtil;
+import com.google.android.youtube.player.YouTubeInitializationResult;
 
 import androidfrontiersci.ImageProcessor;
 import androidfrontiersci.JsonParser;
@@ -116,7 +120,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
                                             int childPosition, long id) {
                     selectVideo(parent.getExpandableListAdapter().getChild(groupPosition,
-                            childPosition).toString(), groupPosition);
+                            childPosition).toString(), groupPosition, layoutInflater);
                     return true;
                 }
             });
@@ -293,13 +297,38 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     // selectVideo
     // This function is called when in normal mode and a child item is selected. It starts the
     // VideoActivity to play the video, only after setting the needed values.
-    private void selectVideo(String video_name, int groupPosition) {
-        // Reset values needed
-        VideoActivity.video_name = video_name;
-        System.out.println(VideoActivity.video_name);
-        VideosListActivity.project_name = _listDataHeader.get(groupPosition);
-        Intent intent = new Intent(context, VideoActivity.class);
-        context.startActivity(intent);
+    private void selectVideo(String video_name, int groupPosition, LayoutInflater layoutInflater) {
+        if (YouTubeApiServiceUtil.isYouTubeApiServiceAvailable(context).equals(
+                YouTubeInitializationResult.SUCCESS)) {
+            // Reset values needed
+            VideoActivity.video_name = video_name;
+            VideosListActivity.project_name = _listDataHeader.get(groupPosition);
+            Intent intent = new Intent(context, VideoActivity.class);
+            context.startActivity(intent);
+        } else {
+            View simple_dialog = layoutInflater.inflate(R.layout.dialog_simple, null);
+            TextView message = (TextView) simple_dialog.findViewById(R.id.message);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            message.setText("Device must have recent version of YouTube app to play video.");
+            builder.setPositiveButton("View in Play Store",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(Uri.parse("market://details?id=com.google.android." +
+                                            "youtube"));
+                            context.startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // The user doesn't want to deal with it right now.
+                        }
+                    });
+            builder.setView(simple_dialog);
+            builder.show();
+        }
     }
     // startDialog
     // This function is called when in manage downloads mode and the download_or_delete_icon is
@@ -327,12 +356,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if (isExternalStorageWritable()) {
             List<String> download_options_list = new ArrayList<String>();
 
-            // If the "MP4" field in the XML was populated, it will be added to the options for
+            // If the "MP4" field in the JSON was populated, it will be added to the options for
             // downloads.
             if (!hd_address.equals("")) {
                 download_options_list.add("HD Video");
             }
-            // Likewise, the compressed video will be added to the options if its field in the XML
+            // Likewise, the compressed video will be added to the options if its field in the JSON
             // was populated.
             if (!compressed_address.equals("")) {
                 download_options_list.add("Compressed Video");
