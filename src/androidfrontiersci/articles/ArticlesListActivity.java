@@ -57,7 +57,8 @@ public class ArticlesListActivity extends Activity {
             RowItem item = new RowItem(null, title);
             rowItems.add(item);
         }
-        CustomListViewAdapter adapter = new CustomListViewAdapter(getApplicationContext(), R.layout.articles_list_item, rowItems);
+        CustomListViewAdapter adapter = new CustomListViewAdapter(getApplicationContext(), R.layout.
+                articles_list_item, rowItems);
 
         Articles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

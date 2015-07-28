@@ -187,8 +187,7 @@ public class ArticlesXmlParser extends AsyncTask<Void, Void, Void> {
         }
         // Set the forArticlesList flag to true
         MainActivity.forArticlesList = true;
-        // Dismiss the dialog
-//        dialog.dismiss();
+        // Dismiss the progress dialog
         progress.dismiss();
         // And start the ArticlesListActivity
         Intent intent = new Intent(context, ArticlesListActivity.class);
