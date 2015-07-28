@@ -1,3 +1,5 @@
+// MainActivity.java
+
 package androidfrontiersci;
 
 import android.app.AlertDialog;

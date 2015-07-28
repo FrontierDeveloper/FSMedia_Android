@@ -1,3 +1,5 @@
+// AboutActivity.java
+
 package androidfrontiersci.about;
 
 import android.app.Activity;

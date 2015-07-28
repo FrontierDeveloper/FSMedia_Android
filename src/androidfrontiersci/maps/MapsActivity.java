@@ -1,3 +1,5 @@
+// MapsActivity.java
+
 package androidfrontiersci.maps;
 
 import android.app.Activity;

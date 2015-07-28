@@ -1,3 +1,5 @@
+// AskAScientistActivity.java
+
 package androidfrontiersci.askascientist;
 
 import frontsci.android.R;

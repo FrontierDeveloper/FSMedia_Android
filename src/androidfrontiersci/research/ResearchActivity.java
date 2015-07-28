@@ -1,3 +1,5 @@
+// ResearchActivity.java
+
 package androidfrontiersci.research;
 
 import android.annotation.SuppressLint;

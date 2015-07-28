@@ -1,3 +1,5 @@
+// ArticlesListActivity.java
+
 package androidfrontiersci.articles;
 
 import android.app.Activity;
@@ -5,8 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
