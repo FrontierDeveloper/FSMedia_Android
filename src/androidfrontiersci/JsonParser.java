@@ -84,7 +84,7 @@ public class JsonParser extends AsyncTask<Void, Void, Void> {
         Map<String, Object> inputData = new Gson().fromJson(json_input, type);
 
         // Assign all incoming data to their designated holders.
-        ProjectData = (Map<String, Object>) inputData.get("android");
+        ProjectData = (Map<String, Object>) inputData.get("project_data");
         next_update = (String) inputData.get("next_update");
         ask_a_scientist_info = (Map<String, String>) inputData.get("scientist");
         about_page_info = (Map<String, Object>) inputData.get("about");
