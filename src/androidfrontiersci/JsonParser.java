@@ -49,7 +49,6 @@ public class JsonParser extends AsyncTask<Void, Void, Void> {
     public static Map<String, Object> ProjectData = new HashMap<String, Object>();
     public static List<String> displayable_categories = new ArrayList<String>();
     public static Map<String, String> ask_a_scientist_info = new HashMap<String, String>();
-    public static Map<String, Object> about_page_info = new HashMap<String, Object>();
     public AsyncFollowUp delegate = null;
 
     // The class' private variables
@@ -87,7 +86,6 @@ public class JsonParser extends AsyncTask<Void, Void, Void> {
         ProjectData = (Map<String, Object>) inputData.get("project_data");
         next_update = (String) inputData.get("next_update");
         ask_a_scientist_info = (Map<String, String>) inputData.get("scientist");
-        about_page_info = (Map<String, Object>) inputData.get("about");
 
         // Create an ordered list of project titles.
         if (displayable_categories.isEmpty()) {

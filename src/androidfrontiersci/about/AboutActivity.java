@@ -31,7 +31,7 @@ import frontsci.android.R;
 public class AboutActivity extends Activity {
 
     // The class' private variable. its WebView
-    private String link = "http://fsci15.alpinewp.com/about/";
+    private String link = "http://frontierscientists.com/about/";
     private WebView webView;
     private static AboutProgressDialog progress;
     private String email_tag = "[frontscidevelopers]";

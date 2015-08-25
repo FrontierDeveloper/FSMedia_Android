@@ -42,8 +42,6 @@ public class ImageProcessor extends AsyncTask<Void, Void, Void> {
     public static Map<String, Drawable> project_images = new HashMap<String, Drawable>();
     public static Map<String, Drawable> project_thumbnails = new HashMap<String, Drawable>();
     public static Drawable ask_a_scientist_photo = null;
-    public static List<Drawable> about_snippet_images = new ArrayList<Drawable>();
-    public static List<Drawable> about_people_images = new ArrayList<Drawable>();
     public AsyncFollowUp delegate = null;
 
     // The class' private variables
@@ -88,19 +86,6 @@ public class ImageProcessor extends AsyncTask<Void, Void, Void> {
         value = JsonParser.ask_a_scientist_info.get("image");
         file_name = value.substring(value.lastIndexOf('/') + 1);
         processImageFile("", file_name, value, "scientist");
-        // and the About page.
-        for (Map<String, String> snippet : ((List<Map<String, String>>) JsonParser.about_page_info
-                .get("snippets"))) {
-            value = snippet.get("image");
-            file_name = value.substring(value.lastIndexOf('/') + 1);
-            processImageFile("", file_name, value, "snippet");
-        }
-        for (Map<String, String> person : ((List<Map<String, String>>) JsonParser.about_page_info
-                .get("people"))) {
-            value = person.get("image");
-            file_name = value.substring(value.lastIndexOf('/') + 1);
-            processImageFile("", file_name, value, "people");
-        }
 
         // Delete any stored files that are not included in the list obtained from the XML
         for (String file : context.fileList()) {
@@ -161,10 +146,6 @@ public class ImageProcessor extends AsyncTask<Void, Void, Void> {
                         THUMBNAIL_SIZE);
                 imageView.setImageBitmap(bitmapImage);
                 project_thumbnails.put(project_title, imageView.getDrawable());
-            } else if (photo_type.equals("snippet")) {
-                about_snippet_images.add(imageView.getDrawable());
-            } else if (photo_type.equals("people")) {
-                about_people_images.add(imageView.getDrawable());
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
