@@ -2,6 +2,7 @@ package androidfrontiersci.videos;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,6 +10,9 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import androidfrontiersci.Download.Downloader;
+import androidfrontiersci.Download.FSVideo;
+import androidfrontiersci.Download.ResearchProject;
 import androidfrontiersci.JsonParser;
 import androidfrontiersci.listviews.ExpandableListAdapter;
 import androidfrontiersci.MainActivity;
@@ -49,6 +53,7 @@ public class VideosListActivity extends Activity {
 
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+    public static ArrayList<Integer> videoListToRPMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +112,8 @@ public class VideosListActivity extends Activity {
 
         if (MainActivity.fromResearch) { // Go to and expand the category from which it was linked
                                          // in the Research section.
-            expListView.setSelection(listDataHeader.indexOf(ResearchActivity.mTitle));
-            expListView.expandGroup(listDataHeader.indexOf(ResearchActivity.mTitle));
+            expListView.setSelection(MainActivity.index);
+            expListView.expandGroup(MainActivity.index);
         }
     }
 
@@ -119,101 +124,28 @@ public class VideosListActivity extends Activity {
     private void prepareListData() {
         listDataChild = new HashMap<String, List<String>>();
         listDataHeader = new ArrayList<String>();
+        videoListToRPMap = new ArrayList<Integer>();
         String title = "";
 
-        if (MainActivity.offlineMode) {
-            // Create an ordered list of projects with downloaded videos
-            List<String> projects_with_downloads = new ArrayList<String>();
-            for (Map.Entry<String, String> entry : MainActivity.downloaded_videos.entrySet()) {
-                for (Map.Entry<String, Object> project : JsonParser.ProjectData.entrySet()) {
-                    for (Map.Entry<String, Object> video : ((Map<String, Object>) ((Map<String,
-                            Object>) project.getValue()).get("videos")).entrySet()) {
-                        if (entry.getKey().equals(video.getKey())) {
-                            if (!projects_with_downloads.contains(project.getKey())) {
-                                projects_with_downloads.add(project.getKey());
-                            }
-                        }
-                    }
-                }
+        for (int i = 0; i < Downloader.RPMap.size(); i++) {
+            // if the project does not have any videos, skip it.
+            if (Downloader.RPMap.get(i).videos.size() == 0) {
+                Log.d("continue", "No videos, project:  " + Downloader.RPMap.get(i).title);
+                continue;
             }
-            Collections.sort(projects_with_downloads);
-
-            // Populate the ExpandableListView data with the downloads of each project
-            for (String project_name : projects_with_downloads) {
-                for (Map.Entry<String, Object> video : ((Map<String, Object>) ((Map<String,
-                        Object>) JsonParser.ProjectData.get(project_name)).get("videos"))
-                        .entrySet()) {
-                    if (MainActivity.downloaded_videos.keySet().contains(video.getKey())) {
-                        if (listDataChild.get(project_name) == null) {
-                            listDataHeader.add(project_name);
-                            listDataChild.put(project_name, new ArrayList<String>());
-                        }
-                        listDataChild.get(project_name).add(video.getKey());
-                    }
-                }
+            videoListToRPMap.add(i);
+            // load the project videos
+            ResearchProject RP = Downloader.RPMap.get(i);
+            title = RP.title;
+            listDataHeader.add(title);
+            List<String> project = new ArrayList<String>();
+            for (FSVideo video : RP.videos) {
+                project.add(video.title);
             }
-        } else {
-            for (int i = 0; i < JsonParser.displayable_categories.size(); i++) {
-                title = JsonParser.displayable_categories.get(i);
-
-                // Research categories with no corresponding videos are left off the list
-                if (!((Map<String, Map<String, Object>>) JsonParser.ProjectData.get(title)).get(
-                        "videos").isEmpty()) {
-                    listDataHeader.add(title);
-                    List<String> project = new ArrayList<String>();
-                    for (Map.Entry<String, Map<String,String>> video : ((Map<String, Map<String,
-                            String>>) ((Map<String, Object>) JsonParser.ProjectData.get(title)).get(
-                            "videos")).entrySet()) {
-                        if (video.getValue().get("utubeurl").contains("youtube")) {
-                            project.add(video.getKey());
-                        }
-
-                    }
-                    listDataChild.put(title, project);
-                }
-            }
-        }
-        for (Map.Entry<String, List<String>> child_list : listDataChild.entrySet()) {
-            Collections.sort(child_list.getValue()); // Alphabetize each group of videos.
+            listDataChild.put(title, project);
         }
     }
 
-/*
-    The action bar functions:
-*/
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.videos_list, menu);
-        MenuItem manage_downloads = menu.findItem(R.id.manage_downloads);
-        manage_downloads.setTitle("Manage Downloads"); // Set action bar button title to "Manage
-                                                       // Downloads" when first entering the
-                                                       // activity. It always starts in normal mode.
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id){
-            case R.id.manage_downloads:
-                if (MainActivity.manageDownloads) { // If in manage downloads mode when the button
-                                                    // is pressed...
-                    item.setTitle("Manage Downloads"); // reset the title...
-                    MainActivity.manageDownloads = false; // reset the helper value...
-                    listAdapter.notifyDataSetChanged(); // and redraw the list in normal mode.
-                } else { // If in normal mode when the button is pressed...
-                    item.setTitle("Done"); // reset the title...
-                    MainActivity.manageDownloads = true; // reset the helper value...
-                    listAdapter.notifyDataSetChanged(); // and redraw the list in manage downloads
-                                                        // mode.
-                    // Also, when in manage downloads mode, expand the groups.
-                    for (int i = 0; i < listDataHeader.size(); ++i) {
-                        expListView.expandGroup(i);
-                    }
-                }
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
     // When leaving the activity...
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

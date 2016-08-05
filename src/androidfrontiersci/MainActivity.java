@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidfrontiersci.Download.JSONParser;
 import androidfrontiersci.about.AboutActivity;
 import androidfrontiersci.articles.ArticlesXmlParser;
 import androidfrontiersci.askascientist.AskAScientistActivity;
@@ -29,6 +30,7 @@ import androidfrontiersci.listviews.RowItem;
 import androidfrontiersci.maps.MapsActivity;
 import androidfrontiersci.research.ResearchActivity;
 import androidfrontiersci.videos.VideosListActivity;
+import androidfrontiersci.Download.Downloader;
 
 import frontsci.android.R;
 
@@ -39,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 /*
     This is MainActivity, the launcher activity, the first activity run when the app starts up.
@@ -69,20 +72,27 @@ public class MainActivity extends FragmentActivity implements AsyncFollowUp {
     public static List<String> downloading_videos = new ArrayList<String>();
     public static List<String> deleting_videos = new ArrayList<String>();
     public static List<String> old_articles = new ArrayList<String>();
+    public static int index = 0;
+
+    public static String jsonString = "";
 
     // The class' private variables
-    private static CustomProgressDialog progress;
+    public static CustomProgressDialog progress;
     private static ListView MainMenu;
     private JsonDownloader jsonDownloader;
     private JsonParser jsonParser;
     private JsonParser jsonReparser;
     private ImageProcessor imageProcessor;
+    private Downloader downloader;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen); // Open the app with the splash screen.
+
+        downloader = new Downloader(this);
 
         // This Runnable simply changes the content view to the MainActivity layout.
         Runnable runnable = new Runnable() {
@@ -106,12 +116,15 @@ public class MainActivity extends FragmentActivity implements AsyncFollowUp {
         // Set up the post task delegation
         jsonDownloader.delegate = jsonParser.delegate = jsonReparser.delegate =
                 imageProcessor.delegate = this;
-
         progress = new CustomProgressDialog(MainActivity.this); // Set progress to custom dialog.
+        progress.show();
+        downloader.execute("http://frontierscientists.com/api/get_posts/?post_type=projects&count=100");
+
+
         if (frontSciData.exists()) {
-            progress.show();
-            jsonParser.execute(); // Skip download, parse the stored dumpedSelectQuery and create
-                                  // the maps by which the data can be easily accessed
+//            jsonParser.execute(); // Skip download, parse the stored dumpedSelectQuery and create
+//                                  // the maps by which the data can be easily accessed
+            Log.d("androidfrontiersci", "did we fix the logic for data existing?");
         } else {
             checkNetworkAndDownload(); // Need internet to continue
         }
@@ -129,8 +142,10 @@ public class MainActivity extends FragmentActivity implements AsyncFollowUp {
     // Called from XmlParser.java
     public void downloadXML() {
         updated = true;
-        jsonDownloader.execute();
+//        jsonDownloader.execute();
+        downloader.execute("http://frontierscientists.com/api/get_posts/?post_type=projects&count=100");
     }
+
     // Called from XmlDownloader.java
     public void reparseXML() {
         jsonReparser.execute();
@@ -141,7 +156,7 @@ public class MainActivity extends FragmentActivity implements AsyncFollowUp {
         imageProcessor.execute();
     }
     // Called from ImageProcessor.java
-    public void hideLoadingScreen() {
+     public void hideLoadingScreen() {
         Log.e("MainThread", "UI ready!");
         progress.dismiss();
     }
@@ -231,7 +246,8 @@ public class MainActivity extends FragmentActivity implements AsyncFollowUp {
             builder.show();
         } else {
             progress.show();
-            jsonDownloader.execute();
+//            jsonDownloader.execute();
+
         }
     }
     // isNetworkAvailable
@@ -316,7 +332,7 @@ public class MainActivity extends FragmentActivity implements AsyncFollowUp {
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             boolean isConnected = activeNetwork != null &&
                     activeNetwork.isConnectedOrConnecting();
-
+            MainActivity.index = 0;
             switch (position) {
 		        case 0:
 		        	intent = new Intent(getActivity(), ResearchActivity.class);

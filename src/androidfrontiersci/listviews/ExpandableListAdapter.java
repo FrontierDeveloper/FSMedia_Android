@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import com.google.android.youtube.player.YouTubeApiServiceUtil;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 
+import androidfrontiersci.Download.Downloader;
 import androidfrontiersci.ImageProcessor;
 import androidfrontiersci.JsonParser;
 import androidfrontiersci.MainActivity;
@@ -121,8 +123,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 @Override
                 public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
                                             int childPosition, long id) {
-                    selectVideo(parent.getExpandableListAdapter().getChild(groupPosition,
-                            childPosition).toString(), groupPosition, layoutInflater);
+                    selectVideo(groupPosition, childPosition, layoutInflater);
                     return true;
                 }
             });
@@ -146,12 +147,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         // Set temporary values needed
         VideosListActivity.video_name = childText;
         VideosListActivity.project_name = _listDataHeader.get(groupPosition);
-        String hd_address = (String) ((Map<String, Object>) ((Map<String, Object>) ((Map<String,
-                Object>) JsonParser.ProjectData.get(VideosListActivity.project_name)).get("videos"))
-                .get(childText)).get("MP4");
-        String compressed_address = (String) ((Map<String, Object>) ((Map<String, Object>) (
-                (Map<String, Object>) JsonParser.ProjectData.get(VideosListActivity.project_name))
-                .get("videos")).get(childText)).get("compressedMP4");
+//        String hd_address = (String) ((Map<String, Object>) ((Map<String, Object>) ((Map<String,
+//                Object>) JsonParser.ProjectData.get(VideosListActivity.project_name)).get("videos"))
+//                .get(childText)).get("MP4");
+//        String compressed_address = (String) ((Map<String, Object>) ((Map<String, Object>) (
+//                (Map<String, Object>) JsonParser.ProjectData.get(VideosListActivity.project_name))
+//                .get("videos")).get(childText)).get("compressedMP4");
 
         if (MainActivity.manageDownloads) {
             if (!(hd_address.equals("") && compressed_address.equals(""))) { // If in manage
@@ -278,7 +279,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         lblListHeader.setText(headerTitle);
         lblListHeader.setTextSize(25);
         ImageView lblHeaderIcon = (ImageView) convertView.findViewById(R.id.icon);
-        lblHeaderIcon.setImageDrawable(ImageProcessor.project_thumbnails.get(headerTitle));
+        lblHeaderIcon.setImageBitmap(Downloader.RPMap.get(VideosListActivity.videoListToRPMap.get(groupPosition)).image);
 
         return convertView;
     }
@@ -299,12 +300,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     // selectVideo
     // This function is called when in normal mode and a child item is selected. It starts the
     // VideoActivity to play the video, only after setting the needed values.
-    private void selectVideo(String video_name, int groupPosition, LayoutInflater layoutInflater) {
+    private void selectVideo(int groupPosition, int childPosition, LayoutInflater layoutInflater) {
         if (YouTubeApiServiceUtil.isYouTubeApiServiceAvailable(context).equals(
                 YouTubeInitializationResult.SUCCESS)) {
             // Reset values needed
-            VideoActivity.video_name = video_name;
-            VideosListActivity.project_name = _listDataHeader.get(groupPosition);
+            int realIndex = VideosListActivity.videoListToRPMap.get(groupPosition);
+            VideosListActivity.video_name = Downloader.RPMap.get(realIndex).videos.get(childPosition).youtube;
+//            VideosListActivity.project_name = Downloader.RPMap.get(groupPosition).title;
+            Log.d("VIDEO", "selectVideo: "+groupPosition+" - "+childPosition);
             Intent intent = new Intent(context, VideoActivity.class);
             context.startActivity(intent);
         } else {
@@ -332,118 +335,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             builder.show();
         }
     }
-    // startDialog
-    // This function is called when in manage downloads mode and the download_or_delete_icon is
-    // pressed while it is the download_icon. The function starts a dialog to determine how to
-    // continue with the download and then, when the information is given, proceeds with the
-    // download.
+
     private void startDialog(String video_name, final int groupPosition, LayoutInflater
             layoutInflater, final ProgressBar spinner) {
 
-        // Reset values needed
-        VideoDownloader.name_of_video_to_be_downloaded = video_name;
-        VideosListActivity.project_name = _listDataHeader.get(groupPosition);
-        hd_address = (String) ((Map<String, Object>) ((Map<String, Object>) ((Map<String,
-                Object>) JsonParser.ProjectData.get(VideosListActivity.project_name)).get("videos"))
-                .get(video_name)).get("MP4");
-        compressed_address = (String) ((Map<String, Object>) ((Map<String, Object>) (
-                (Map<String, Object>) JsonParser.ProjectData.get(VideosListActivity.project_name))
-                .get("videos")).get(video_name)).get("compressedMP4");
-
-        View simple_dialog = layoutInflater.inflate(R.layout.dialog_simple, null);
-        View choose_dialog = layoutInflater.inflate(R.layout.dialog_choose, null);
-        TextView simple_message = (TextView) simple_dialog.findViewById(R.id.message);
-        TextView choose_message = (TextView) choose_dialog.findViewById(R.id.message);
-
-        if (isExternalStorageWritable()) {
-            List<String> download_options_list = new ArrayList<String>();
-
-            // If the "MP4" field in the JSON was populated, it will be added to the options for
-            // downloads.
-            if (!hd_address.equals("")) {
-                download_options_list.add("HD Video");
-            }
-            // Likewise, the compressed video will be added to the options if its field in the JSON
-            // was populated.
-            if (!compressed_address.equals("")) {
-                download_options_list.add("Compressed Video");
-            }
-
-            final String[] download_options = download_options_list.toArray(
-                    new String[download_options_list.size()]);
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            final VideoDownloader downloader = new VideoDownloader(context);
-
-            switch (download_options.length) {
-                // If there is only one option, the options are take it or leave it
-                case 1:
-                    simple_message.setText("Download "+download_options[0]+"?");
-                    builder.setPositiveButton("Download", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    spinner.setVisibility(ProgressBar.VISIBLE);
-                                    if (download_options[0].equals("HD Video")) {
-                                        downloader.execute(hd_address);
-                                    } else {
-                                        downloader.execute(compressed_address);
-                                    }
-                                }
-                            })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // User cancelled the dialog
-                                }
-                            });
-                    builder.setView(simple_dialog);
-                    builder.show();
-                    break;
-                // If both types are available, the user is asked to select which one they want
-                case 2:
-                    choose_message.setText("Choose a download type");
-                    builder.setView(choose_dialog);
-
-                    final LinearLayout hd_option = (LinearLayout) choose_dialog.findViewById(R.id
-                            .option1);
-                    final LinearLayout compressed_option = (LinearLayout) choose_dialog
-                            .findViewById(R.id.option2);
-
-                    final AlertDialog dialog = builder.create();
-
-                    hd_option.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            spinner.setVisibility(ProgressBar.VISIBLE);
-                            downloader.execute(hd_address);
-                            dialog.cancel();
-                        }
-                    });
-                    compressed_option.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            spinner.setVisibility(ProgressBar.VISIBLE);
-                            downloader.execute(compressed_address);
-                            dialog.cancel();
-                        }
-                    });
-
-                    dialog.show();
-                    break;
-            }
-        } else {
-            Toast toast = Toast.makeText(context, "External storage not enabled.", Toast.LENGTH_LONG);
-            toast.show();
-        }
     }
-    // isExternalStorageWritable
-    // This function is called from startDialog(). It returns true if external storage is writable
-    // and false if it is not.
-    public static boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
+
 }

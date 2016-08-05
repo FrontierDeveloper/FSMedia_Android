@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidfrontiersci.Download.Downloader;
 import androidfrontiersci.ImageProcessor;
 import androidfrontiersci.JsonParser;
 import androidfrontiersci.listviews.CustomListViewAdapter;
@@ -126,7 +128,8 @@ public class ResearchActivity extends Activity implements
     // This function is called from onAttach() of the CategoryContent fragment. It sets the mTitle
     // variable to the section selected.
     public void onSectionAttached(int number) {
-        mTitle = JsonParser.displayable_categories.get(number-1);
+		MainActivity.index = number - 1;
+		Log.d("sec_attached", Integer.toString(number));
     }
 
     @Override
@@ -183,10 +186,10 @@ public class ResearchActivity extends Activity implements
 	        holder.maps_link = (ListView) rootView.findViewById(R.id.maps_link);
 	        rootView.setTag(holder);
 	        
-	        holder.project_image.setImageDrawable(ImageProcessor.project_images.get(mTitle));
-            holder.post_content.setText((String) ((Map<String, Object>) JsonParser.ProjectData
-                    .get(mTitle)).get("project_description"));
-	        	
+//	        holder.project_image.setImageDrawable(ImageProcessor.project_images.get(mTitle));
+//          holder.post_content.setText((String) ((Map<String, Object>) JsonParser.ProjectData.get(mTitle)).get("project_description"));
+			holder.project_image.setImageBitmap(Downloader.RPMap.get(MainActivity.index).image);
+			holder.post_content.setText(Downloader.RPMap.get(MainActivity.index).description);
 	        holder.post_content.setMovementMethod(new ScrollingMovementMethod());
 	        makeMyScrollSmart(holder.post_content);
 	        
@@ -230,8 +233,9 @@ public class ResearchActivity extends Activity implements
 
             // If there are no videos that correspond to the research category,
             // the corresponding link is not shown.
-            if (((Map<String, Map<String, Object>>) JsonParser.ProjectData.get(mTitle)).get(
-                    "videos").isEmpty()) {
+			Log.e("VIDEO LINK", Integer.toString(Downloader.RPMap.get(MainActivity.index).videos.size()));
+            if (Downloader.RPMap.get(MainActivity.index).videos.size() == 0) {
+				Log.e("VIDEO LINK", "Should not display");
                 holder.videos_link.setVisibility(ListView.INVISIBLE);
             }
 
