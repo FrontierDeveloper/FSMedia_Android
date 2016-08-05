@@ -14,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidfrontiersci.ImageProcessor;
@@ -28,6 +30,7 @@ import androidfrontiersci.JsonParser;
 import androidfrontiersci.MainActivity;
 import androidfrontiersci.listviews.CustomListViewAdapter;
 import androidfrontiersci.listviews.RowItem;
+import androidfrontiersci.Download.Downloader;
 
 import frontsci.android.R;
 
@@ -83,9 +86,10 @@ public class ResearchNavigationDrawerFragment extends Fragment {
 		}
 
         if (MainActivity.fromVideosOrMaps) {
-            mCurrentSelectedPosition = JsonParser.displayable_categories.indexOf(
-                    ResearchActivity.mTitle);
-        }
+			Log.d("fromVideosOrMaps","SHould run");
+			mCurrentSelectedPosition = MainActivity.index;
+			// needs fixed to index
+		}
 
 		// Select either the default item (0) or the last selected item.
 		selectItem(mCurrentSelectedPosition);
@@ -121,9 +125,11 @@ public class ResearchNavigationDrawerFragment extends Fragment {
 
 		rowItems = new ArrayList<RowItem>();
 
-		for (int i = 0; i < JsonParser.displayable_categories.size(); i++) {
-			String title = JsonParser.displayable_categories.get(i);
-			RowItem item = new RowItem(ImageProcessor.project_thumbnails.get(title), title);
+		for (int i = 0; i < Downloader.RPMap.size(); i++) {
+			String title = Downloader.RPMap.get(i).title;
+			ImageView imageView = new ImageView(getActivity());
+			imageView.setImageBitmap(Downloader.RPMap.get(i).image);
+			RowItem item = new RowItem(imageView.getDrawable(), Downloader.RPMap.get(i).title);
 			rowItems.add(item);
 		}
 

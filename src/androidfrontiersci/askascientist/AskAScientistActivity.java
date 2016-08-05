@@ -2,6 +2,7 @@
 
 package androidfrontiersci.askascientist;
 
+import androidfrontiersci.Download.Downloader;
 import frontsci.android.R;
 import frontsci.android.R.id;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
@@ -119,7 +120,6 @@ public class AskAScientistActivity extends Activity {
             ImageView scientist_image = new ImageView(getActivity());
             TextView scientist_name_TV = new TextView(getActivity());
             TextView scientist_bio_TV = new TextView(getActivity());
-            Button scientist_video_button = new Button(getActivity());
         }
 
 		@Override
@@ -130,11 +130,11 @@ public class AskAScientistActivity extends Activity {
 
             holder.scientist_image = (ImageView) rootView.findViewById(id.scientist_image);
 
-            holder.scientist_image.setImageDrawable(ImageProcessor.ask_a_scientist_photo);
+            holder.scientist_image.setImageBitmap(Downloader.sciOnCall.image);
 
-            scientist_name = JsonParser.ask_a_scientist_info.get("name");
-            scientist_bio = JsonParser.ask_a_scientist_info.get("bio");
-            scientist_video_url = JsonParser.ask_a_scientist_info.get("video");
+            scientist_name = Downloader.sciOnCall.name;
+            scientist_bio = Downloader.sciOnCall.bio;
+            scientist_video_url = "";
 
             Log.e("TAG", "name: "+scientist_name);
             Log.e("TAG", "bio: "+scientist_bio);
@@ -144,26 +144,16 @@ public class AskAScientistActivity extends Activity {
             holder.scientist_name_TV.setText(scientist_name);
             holder.scientist_bio_TV = (TextView) rootView.findViewById(id.scientist_bio);
             holder.scientist_bio_TV.setText(scientist_bio);
-            holder.scientist_video_button = (Button) rootView.findViewById(id.video_bio);
 
 
-            holder.scientist_video_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String video_id = VideoActivity.getYouTubeVideoId(scientist_video_url);
-                    Intent intent = YouTubeStandalonePlayer.createVideoIntent(getActivity(),
-                            DeveloperKey.DEVELOPER_KEY, video_id);
-                    startActivity(intent);
-                }
-            });
 
             holder.scientist_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String video_id = VideoActivity.getYouTubeVideoId(scientist_video_url);
-                    Intent intent = YouTubeStandalonePlayer.createVideoIntent(getActivity(),
-                            DeveloperKey.DEVELOPER_KEY, video_id);
-                    startActivity(intent);
+//                    String video_id = VideoActivity.getYouTubeVideoId(scientist_video_url);
+//                    Intent intent = YouTubeStandalonePlayer.createVideoIntent(getActivity(),
+//                            DeveloperKey.DEVELOPER_KEY, video_id);
+//                    startActivity(intent);
                 }
             });
 			return rootView;

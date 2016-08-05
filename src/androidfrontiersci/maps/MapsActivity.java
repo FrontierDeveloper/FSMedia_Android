@@ -11,7 +11,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidfrontiersci.JsonParser;
+import androidfrontiersci.Download.Downloader;
+import androidfrontiersci.Download.ResearchProject;
 import androidfrontiersci.MainActivity;
 import androidfrontiersci.research.ResearchActivity;
 
@@ -27,8 +28,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,9 +37,9 @@ import java.util.Map;
 
 public class MapsActivity extends Activity implements OnMapReadyCallback{
 
-    private Boolean fromResearch_infoWindow_Opened=false;
     private String new_center;
-    public static Map<String,Marker>markerMap = new HashMap<String, Marker>();
+    public static Map<Marker,Integer>markerMap = new HashMap<Marker, Integer>();
+    public static Map<Integer,Marker>RPtoMarker = new HashMap<Integer, Marker>();
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,28 +53,22 @@ public void init_map()
         map_frag.getMapAsync(this);
     }
     @Override
-public void onMapReady(GoogleMap map) {
-        set_center(map);
-        set_markers(map);
-        map.setOnCameraChangeListener(new OnCameraChangeListener() {
-            @Override
-            public void onCameraChange(CameraPosition cameraPosition) {
-
+    public void onMapReady(GoogleMap map) {
+            set_center(map);
+            set_markers(map);
+            map.setOnCameraChangeListener(new OnCameraChangeListener() {
+                @Override
+                public void onCameraChange(CameraPosition cameraPosition) {
                 Log.e("maps","onCameraChange");
-                if(!fromResearch_infoWindow_Opened){
-                if(MainActivity.fromResearch){
-                    markerMap.get(ResearchActivity.mTitle).showInfoWindow();
-                    Log.e("maps","if statement");
+                    if(MainActivity.fromResearch){
+                        RPtoMarker.get(MainActivity.index).showInfoWindow();
+                        move_to_marker(RPtoMarker.get(MainActivity.index));
+                        Log.e("maps", "if statement");
+                        MainActivity.fromResearch = false;
+                    }
                 }
-                fromResearch_infoWindow_Opened=true;}
-            }
-        });
-        if(MainActivity.fromResearch)
-        {for (Map.Entry<String, Marker> entry : markerMap.entrySet()) {
-            if (entry.getKey().equals(ResearchActivity.mTitle)){
-                move_to_marker(entry.getKey());
-//                entry.getValue().showInfoWindow();
-}}}}
+     });
+    }
 
     public void set_center(GoogleMap map) {
         //Center of Alaska for tablet is: 62.89447956,-152.756170369
@@ -99,23 +92,14 @@ public void onMapReady(GoogleMap map) {
 
     public void set_markers(GoogleMap map) {
         map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
-        for (Map.Entry<String, Object> project : JsonParser.ProjectData.entrySet()) {
-            Double latitude = 0.0;
-            Double longitude = 0.0;
-
-            for (Map.Entry<String, Object> entry : ((Map<String, Object>) project.getValue())
-                    .entrySet()) {
-                if (entry.getKey().equals("latitude")) {
-                    latitude = (Double) entry.getValue();
-                } else if (entry.getKey().equals("longitude")) {
-                    longitude = (Double) entry.getValue();
-                }
-            }
-
+        int i = 0;
+        for (ResearchProject RP : Downloader.RPMap) {
+            Double latitude = RP.mapData.lat;
+            Double longitude = RP.mapData.lng;
+            i++;
             Marker temp_marker = map.addMarker(new MarkerOptions()
                             .position(new LatLng(latitude, longitude))
-                            .title(project.getKey())
+                            .title(RP.title)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.diamond_blue))
                             .snippet("Tap to go to project description")
             );
@@ -123,12 +107,12 @@ public void onMapReady(GoogleMap map) {
             map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                 @Override
                 public void onInfoWindowClick(Marker marker) {
-                    ResearchActivity.mTitle = marker.getTitle();
+                    MainActivity.index = markerMap.get(marker);
                     linkToResearch();
                 }
             });
-
-            markerMap.put(project.getKey(),temp_marker);
+            markerMap.put(temp_marker, RP.index);
+            RPtoMarker.put(RP.index,temp_marker);
         }
     }
     public void linkToResearch() {
@@ -144,14 +128,13 @@ public void onMapReady(GoogleMap map) {
         GoogleMap map = map_frag.getMap();
         set_center(map);
     }
-    public void move_to_marker(String marker_title){
-        LatLng target = markerMap.get(marker_title).getPosition();
+    public void move_to_marker(Marker marker){
+        LatLng target = marker.getPosition();
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(target)
                 .zoom(8)
                 .build();
-    animate_camera(cameraPosition);
-        //markerMap.get(marker_title).showInfoWindow();
+        animate_camera(cameraPosition);
 
     }
     // When leaving the activity...

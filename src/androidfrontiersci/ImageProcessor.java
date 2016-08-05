@@ -63,7 +63,7 @@ public class ImageProcessor extends AsyncTask<Void, Void, Void> {
 */
     @Override
     protected Void doInBackground(Void... params) {
-
+        Log.d("IMAGE", "DO I RUN????? WTF IS LIFE????");
         // These file names are added to the saved_files list so they won't be purged
         saved_files.add("frontSciData.json");
         saved_files.add("old_articles.txt");

@@ -111,9 +111,7 @@ public class VideoActivity extends YouTubeBaseActivity implements
     // This function is called from onCreate(). It initializes and starts a YouTubeStandalonePlayer
     // to stream the selected video.
     private void streamVideo() {
-        String video_url = ((Map<String, String>) ((Map<String, Object>) ((Map<String, Object>)
-                JsonParser.ProjectData.get(VideosListActivity.project_name)).get("videos")).get(
-                video_name)).get("utubeurl");
+        String video_url = VideosListActivity.video_name;
         String video_id = getYouTubeVideoId(video_url);
         Intent intent = YouTubeStandalonePlayer.createVideoIntent(this, DeveloperKey.DEVELOPER_KEY,
                 video_id);
@@ -142,19 +140,8 @@ public class VideoActivity extends YouTubeBaseActivity implements
     // This function is called from streamVideo(). It takes a YouTube url as a String and returns
     // the YouTube id found within the url.
     public static String getYouTubeVideoId(String url) {
-        String video_id = "";
-        if (url != null && url.trim().length() > 0 && url.startsWith("http")) {
-            String expression = "^.*((youtu.be"+ "\\/)" + "|(v\\/)|(\\/u\\/w\\/)|(embed\\/)|" +
-                    "(watch\\?))\\??v?=?([^#\\&\\?]*).*";
-            Pattern pattern = Pattern.compile(expression,Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(url);
-            if (matcher.matches()) {
-                String groupIndex1 = matcher.group(7);
-                if(groupIndex1 != null && groupIndex1.length() == 11) {
-                    video_id = groupIndex1;
-                }
-            }
-        }
-        return video_id;
+        String[] tempArray = url.split("\\?v\\=");
+        Log.d("YOUTUBE", tempArray[0]);
+        return tempArray[1];
     }
 }
