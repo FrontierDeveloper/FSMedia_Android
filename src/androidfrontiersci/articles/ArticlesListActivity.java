@@ -25,23 +25,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-    This is ArticlesListActivity, the activity started when the Articles section is selected from
-    the main menu.
-    Its layout file is activity_articles_list.xml.
-    Its menu file is articles_list.xml.
-    This class displays a ListView of the newest ten articles from frontierscientists.com as parsed
-    from http://frontierscientists.com/feed in ArticlesXmlParser.java. It creates a new
-    CustomListViewAdapter with the forArticlesList flag having been set to true in
-    ArticlesXmlParser.java. Articles already viewed, any included in the old_articles.txt file, are
-    displayed without the "new" icon. When leaving the activity, the old_articles.txt file is
-    updated with the newly viewed articles.
-*/
+// ###########################################################
+//    This is ArticlesListActivity, the activity started when the Articles section is selected from
+//    the main menu.
+//    Its layout file is activity_articles_list.xml.
+//    Its menu file is articles_list.xml.
+//    This class displays a ListView of the newest ten articles from frontierscientists.com as parsed
+//    from http://frontierscientists.com/feed in ArticlesXmlParser.java. It creates a new
+//    CustomListViewAdapter with the forArticlesList flag having been set to true in
+//    ArticlesXmlParser.java. Articles already viewed, any included in the old_articles.txt file, are
+//    displayed without the "new" icon. When leaving the activity, the old_articles.txt file is
+//    updated with the newly viewed articles.
+// ###########################################################
 public class ArticlesListActivity extends Activity {
 
-/*
-    These two variables are accessed in ArticleActivity.java when creating the WebView.
-*/
+    // ###########################################################
+    // These two variables are accessed in ArticleActivity.java when creating the WebView.
+    // ###########################################################
     public static String article_name = "";
     public static String article_url = "";
 
@@ -101,9 +101,9 @@ public class ArticlesListActivity extends Activity {
         return super.onKeyDown(keyCode, event);
     }
 
-/*
-    Helper functions:
-*/
+// ###########################################################
+//    Helper functions:
+// ###########################################################
     // selectItem
     // This function is called when an article in the list is selected. It sets article_name and
     // article_url to that of the selected item and starts the ArticleActivity to display it.

@@ -53,7 +53,7 @@ import java.util.Map;
     backdrop.
     The Foreground fragment contains the ListView that is the main menu of the app.
 */
-public class MainActivity extends FragmentActivity implements AsyncFollowUp {
+public class MainActivity extends FragmentActivity {
 
 /*
     These are variables accessed from throughout the project, initialized here to be as global
@@ -64,13 +64,10 @@ public class MainActivity extends FragmentActivity implements AsyncFollowUp {
     public static boolean manageDownloads = false;
     public static boolean forArticlesList = false;
     public static boolean updated = false;
-    public static boolean alreadyDownloaded = false;
     public static boolean offlineMode = false;
     public static String fileName = "frontSciData.json";
     public static File frontSciData;
     public static Map<String, String> downloaded_videos = new HashMap<String, String>();
-    public static List<String> downloading_videos = new ArrayList<String>();
-    public static List<String> deleting_videos = new ArrayList<String>();
     public static List<String> old_articles = new ArrayList<String>();
     public static int index = 0;
 
@@ -79,10 +76,6 @@ public class MainActivity extends FragmentActivity implements AsyncFollowUp {
     // The class' private variables
     public static CustomProgressDialog progress;
     private static ListView MainMenu;
-    private JsonDownloader jsonDownloader;
-    private JsonParser jsonParser;
-    private JsonParser jsonReparser;
-    private ImageProcessor imageProcessor;
     private Downloader downloader;
 
 	
@@ -103,30 +96,31 @@ public class MainActivity extends FragmentActivity implements AsyncFollowUp {
         };
 
         android.os.Handler handler = new android.os.Handler();
-        handler.postDelayed(runnable, 3000); // Run the Runnable after 3 seconds, changing the
-                                             // content view away from the splash screen.
+        // Run the Runnable after 1.5 seconds, changing the
+        // content view away from the splash screen.
+        handler.postDelayed(runnable, 1500);
+
 
         // The file object is defined either as the persistent file in place or is non-existent
-        frontSciData = new File(getFilesDir(), fileName);
-
-        jsonDownloader = new JsonDownloader(getApplicationContext());
-        jsonParser = new JsonParser(getApplicationContext());
-        jsonReparser = new JsonParser(getApplicationContext());
-        imageProcessor = new ImageProcessor(getApplicationContext());
-        // Set up the post task delegation
-        jsonDownloader.delegate = jsonParser.delegate = jsonReparser.delegate =
-                imageProcessor.delegate = this;
         progress = new CustomProgressDialog(MainActivity.this); // Set progress to custom dialog.
         progress.show();
-        downloader.execute("http://frontierscientists.com/api/get_posts/?post_type=projects&count=100");
-
-
-        if (frontSciData.exists()) {
-//            jsonParser.execute(); // Skip download, parse the stored dumpedSelectQuery and create
-//                                  // the maps by which the data can be easily accessed
-            Log.d("androidfrontiersci", "did we fix the logic for data existing?");
+        if (isNetworkAvailable()) {
+            downloader.execute("http://frontierscientists.com/api/get_posts/?post_type=projects&count=100");
         } else {
-            checkNetworkAndDownload(); // Need internet to continue
+            View simple_dialog = getLayoutInflater().inflate(R.layout.dialog_simple, null);
+            TextView message = (TextView) simple_dialog.findViewById(R.id.message);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            message.setText("Frontier Science Media requires an internet connection to run!");
+            builder.setPositiveButton("OK",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(418);
+                        }
+                    });
+            builder.setView(simple_dialog);
+            builder.show();
         }
     }
 
@@ -135,121 +129,6 @@ public class MainActivity extends FragmentActivity implements AsyncFollowUp {
     They are called in the onPostExecute() functions of the various classes that extend
     AsyncTask.
 */
-    // Called from XmlDownloader.java
-    public void postDownloadParse() {
-        jsonParser.execute(); // The stored file is parsed right after being downloaded
-    }
-    // Called from XmlParser.java
-    public void downloadXML() {
-        updated = true;
-//        jsonDownloader.execute();
-        downloader.execute("http://frontierscientists.com/api/get_posts/?post_type=projects&count=100");
-    }
-
-    // Called from XmlDownloader.java
-    public void reparseXML() {
-        jsonReparser.execute();
-    }
-    // Called from XmlParser.java
-    public void postParseImageDownload() {
-        populateDownloadedVideos();
-        imageProcessor.execute();
-    }
-    // Called from ImageProcessor.java
-     public void hideLoadingScreen() {
-        Log.e("MainThread", "UI ready!");
-        progress.dismiss();
-    }
-
-/*
-    Class helper functions:
-*/
-    // populateDownloadedVideos
-    // It scans the directory in which the videos of the app are stored and puts their names and
-    // paths in the downloaded_videos map. If the video's name is on the list of videos recognized
-    // as downloaded, it remains on the list. Videos found in the directory that are not on the list
-    // are unwanted partial downloads and excluded.
-    private void populateDownloadedVideos() {
-        // Get the list of video names that are recognized as downloaded.
-        List<String> recognized_downloads = new ArrayList<String>();
-        File downloaded_videos_file = new File(getFilesDir(), "downloaded_videos.txt");
-        if (downloaded_videos_file.exists()) {
-            try {
-                FileReader fileReader = new FileReader(downloaded_videos_file);
-                BufferedReader reader = new BufferedReader(fileReader);
-                String line = "";
-                while ((line = reader.readLine()) != null) {
-                    recognized_downloads.add(line.replace("\n", ""));
-                }
-                fileReader.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_MOVIES) != null) {
-            for (File file : getApplicationContext()
-                    .getExternalFilesDir(Environment.DIRECTORY_MOVIES).listFiles()) {
-                String video_name = getVideoName(file.getName());
-                if (recognized_downloads.contains(video_name)) { // Add only the videos that are
-                                                                 // recognized downloads, not
-                                                                 // partial downloads.
-                    downloaded_videos.put(video_name, file.getAbsolutePath());
-                }
-            }
-        }
-    }
-    // getVideoName
-    // This function is called from populateDownloadedVideos(). It takes in a video file name and
-    // returns its corresponding video's title.
-    private static String getVideoName(String file_name) {
-        String name = "";
-        // Search the map and find which video the file belongs to...
-        for (Map.Entry<String, Object> project : JsonParser.ProjectData.entrySet()) {
-            for (Map.Entry<String, Map<String, String>> video : ((Map<String, Map<String, String>>)
-                    ((Map<String, Object>) project.getValue()).get("videos")).entrySet()) {
-                String current_video_file = Uri.parse(video.getValue().get("MP4"))
-                        .getLastPathSegment();
-                if (file_name.equals(current_video_file)) {
-                    name = video.getKey();
-                }
-            }
-        }
-        // and return that video's name.
-        return name;
-    }
-    // checkNetwork
-    // This function is called from onCreate(). If there is an internet connection, it starts the
-    // xml download. If there isn't a connection, it goes through a retry dialog either until there
-    // is a connection or the user exits.
-    private void checkNetworkAndDownload() {
-        if (!isNetworkAvailable()) {
-            View simple_dialog = getLayoutInflater().inflate(R.layout.dialog_simple, null);
-            TextView message = (TextView) simple_dialog.findViewById(R.id.message);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            message.setText("No internet connection.");
-            builder.setPositiveButton("Try again", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                checkNetworkAndDownload(); // Run the check again
-                            }
-                        })
-                    .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                                System.exit(0);
-                            }
-                        });
-            builder.setView(simple_dialog);
-            builder.show();
-        } else {
-            progress.show();
-//            jsonDownloader.execute();
-
-        }
-    }
     // isNetworkAvailable
     // This function is called from checkNetworkAndDownload(). It returns true if the device has a
     // network connection, false if it doesn't.

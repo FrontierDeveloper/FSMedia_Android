@@ -25,8 +25,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import androidfrontiersci.ImageProcessor;
-import androidfrontiersci.JsonParser;
 import androidfrontiersci.MainActivity;
 import androidfrontiersci.listviews.CustomListViewAdapter;
 import androidfrontiersci.listviews.RowItem;

@@ -2,9 +2,6 @@ package androidfrontiersci.Download;
 
 import android.graphics.Bitmap;
 
-/**
- * Created by sfarabaugh on 8/5/16.
- */
 public class FSScientist {
     public String name;
     public String bio;

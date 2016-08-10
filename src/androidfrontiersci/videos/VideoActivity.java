@@ -1,32 +1,16 @@
 package androidfrontiersci.videos;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.MediaController;
-import android.widget.TextView;
 import android.widget.VideoView;
 
-import androidfrontiersci.JsonParser;
-import androidfrontiersci.listviews.ExpandableListAdapter;
-import androidfrontiersci.MainActivity;
-
-import frontsci.android.R;
-import com.google.android.youtube.player.YouTubeApiServiceUtil;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayer.Provider;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
-
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /*
     This is the VideoActivity, started by VideosListActivity to play the selected video.
@@ -56,57 +40,13 @@ public class VideoActivity extends YouTubeBaseActivity implements
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // If the selected video has been downloaded, play it from download.
-        if (MainActivity.downloaded_videos.keySet().contains(video_name)) {
-            playVideoFromDownload();
-        // Otherwise, stream it from YouTube.
-        } else {
-            streamVideo();
-        }
+        streamVideo();
         VideosListActivity.listAdapter.notifyDataSetChanged(); // Redraw the list as you reenter it.
     }
 
 /*
     Content functions:
 */
-    // playVideoFromDownload
-    // This function is called from onCreate(). It sets up a VideoView and plays the video from an
-    // internally stored file.
-    private void playVideoFromDownload() {
-        Uri file_path = Uri.parse(MainActivity.downloaded_videos.get(video_name));
-        // Set the main layout of the activity.
-        setContentView(R.layout.activity_video);
-        // Set the media controller buttons.
-        if (mediaControls == null) {
-            mediaControls = new MediaController(VideoActivity.this);
-        }
-        // Initialize the VideoView.
-        myVideoView = (VideoView) findViewById(R.id.video_view);
-
-        try {
-            // Set the media controller in the VideoView.
-            myVideoView.setMediaController(mediaControls);
-            // Set the uri of the video to be played.
-            myVideoView.setVideoURI(file_path);
-        } catch (Exception e) {
-            Log.e("Error", e.getMessage());
-            e.printStackTrace();
-        }
-
-        myVideoView.requestFocus();
-        // Set a setOnPreparedListener in order to know when the video file is ready for playback.
-        myVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                myVideoView.seekTo(position); // If we have a position on savedInstanceState, the
-                                              // video playback should start from here
-                if (position == 0) {
-                    myVideoView.start();
-                } else {
-                    myVideoView.pause(); // If we come from a resumed activity, video playback will
-                                         // be paused.
-                }
-            }
-        });
-    }
     // streamVideo
     // This function is called from onCreate(). It initializes and starts a YouTubeStandalonePlayer
     // to stream the selected video.
@@ -132,10 +72,6 @@ public class VideoActivity extends YouTubeBaseActivity implements
     public void onInitializationFailure(Provider arg0, YouTubeInitializationResult arg1) {
         Log.e(TAG, "Video Initialization Failure");
     }
-
-/*
-    Helper function:
-*/
     // getYouTubeVideoId
     // This function is called from streamVideo(). It takes a YouTube url as a String and returns
     // the YouTube id found within the url.

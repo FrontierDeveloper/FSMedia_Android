@@ -26,8 +26,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidfrontiersci.Download.Downloader;
-import androidfrontiersci.ImageProcessor;
-import androidfrontiersci.JsonParser;
 import androidfrontiersci.listviews.CustomListViewAdapter;
 import androidfrontiersci.listviews.RowItem;
 import androidfrontiersci.MainActivity;
@@ -40,7 +38,6 @@ import frontsci.android.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /*
     This is ResearchActivity, the activity started when the Research section is selected from the

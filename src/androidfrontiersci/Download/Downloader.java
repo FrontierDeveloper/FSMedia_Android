@@ -3,22 +3,16 @@ package androidfrontiersci.Download;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
 import androidfrontiersci.MainActivity;
-import androidfrontiersci.Download.JSONParser;
 
-/**
- * Created by jtnewell2 on 8/3/16.
- */
 public class Downloader extends AsyncTask<String, Void, Void> {
 
 

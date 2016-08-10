@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidfrontiersci.Download.Downloader;
 import androidfrontiersci.Download.FSVideo;
 import androidfrontiersci.Download.ResearchProject;
-import androidfrontiersci.JsonParser;
 import androidfrontiersci.listviews.ExpandableListAdapter;
 import androidfrontiersci.MainActivity;
 import androidfrontiersci.research.ResearchActivity;
@@ -112,8 +111,8 @@ public class VideosListActivity extends Activity {
 
         if (MainActivity.fromResearch) { // Go to and expand the category from which it was linked
                                          // in the Research section.
-            expListView.setSelection(MainActivity.index);
-            expListView.expandGroup(MainActivity.index);
+            expListView.setSelection(videoListToRPMap.get(MainActivity.index));
+            expListView.expandGroup(videoListToRPMap.get(MainActivity.index));
         }
     }
 
@@ -143,6 +142,9 @@ public class VideosListActivity extends Activity {
                 project.add(video.title);
             }
             listDataChild.put(title, project);
+        }
+        for (Integer i : videoListToRPMap) {
+            Log.d("VideosListToRPMap", i.toString());
         }
     }
 

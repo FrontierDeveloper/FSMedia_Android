@@ -19,18 +19,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidfrontiersci.MainActivity;
-
 import frontsci.android.R;
 
-/*
-    This is AboutActivity, a class that displays the About page in a WebView.
-    Its layout file is activity_about.xml.
-    Its menu file is about.xml.
-*/
+// ###########################################################
+//    This is AboutActivity, a class that displays the About page in a WebView.
+//    Its layout file is activity_about.xml.
+//    Its menu file is about.xml.
+// ###########################################################
 public class AboutActivity extends Activity {
-
+    // ###########################################################
     // The class' private variable. its WebView
+    // ###########################################################
     private String link = "http://frontierscientists.com/about/";
     private WebView webView;
     private static AboutProgressDialog progress;
@@ -90,9 +89,9 @@ public class AboutActivity extends Activity {
         super.finish();
     }
 
-/*
-    Action bar functions:
-*/
+// ###########################################################
+//    Action bar functions:
+// ###########################################################
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -153,10 +152,10 @@ public class AboutActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-/*
-        This is the AboutProgressDialog dialog.
-        Its layout file is dialog_progress.xml.
-*/
+// ###########################################################
+//        This is the AboutProgressDialog dialog.
+//        Its layout file is dialog_progress.xml.
+// ###########################################################
     public class AboutProgressDialog extends AlertDialog {
 
         public AboutProgressDialog(Context context) {

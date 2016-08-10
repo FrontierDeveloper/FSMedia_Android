@@ -5,7 +5,6 @@ package androidfrontiersci.askascientist;
 import androidfrontiersci.Download.Downloader;
 import frontsci.android.R;
 import frontsci.android.R.id;
-import com.google.android.youtube.player.YouTubeStandalonePlayer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,17 +17,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.DialogInterface;
 import android.widget.Toast;
 
-import androidfrontiersci.ImageProcessor;
-import androidfrontiersci.JsonParser;
-import androidfrontiersci.videos.DeveloperKey;
-import androidfrontiersci.videos.VideoActivity;
 
 public class AskAScientistActivity extends Activity {
 
@@ -108,9 +102,9 @@ public class AskAScientistActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-/*
-	A placeholder fragment containing a simple view.
-*/
+    // ###########################################################
+	// A placeholder fragment containing a simple view.
+    // ###########################################################
 	public static class PlaceholderFragment extends Fragment {
 
 		public PlaceholderFragment() {

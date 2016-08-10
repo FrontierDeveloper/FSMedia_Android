@@ -20,20 +20,20 @@ import frontsci.android.R;
 
 import java.util.List;
 
-/*
-    This is the CustomListViewAdapter class, used by MainActivity.java, ResearchActivity.java,
-    ResearchNavigationDrawerFragment.java and ArticlesListActivity.java. It allows for the creation
-    of ListViews that can include icons and other ImageViews as well as the standard TextView.
-*/
+// ###########################################################
+//    This is the CustomListViewAdapter class, used by MainActivity.java, ResearchActivity.java,
+//    ResearchNavigationDrawerFragment.java and ArticlesListActivity.java. It allows for the creation
+//    of ListViews that can include icons and other ImageViews as well as the standard TextView.
+// ###########################################################
 @SuppressLint("InflateParams") public class CustomListViewAdapter extends ArrayAdapter<RowItem> {
 
     // The class' private variables
     private int resourceId;
 	Context context;
 
-/*
-    The constructor, setting the correct context and resource id for the layout file.
-*/
+// ###########################################################
+//    The constructor, setting the correct context and resource id for the layout file.
+// ###########################################################
     public CustomListViewAdapter(Context context, int resourceId, List<RowItem> items) {
         super(context, resourceId, items);
         this.context = context;
@@ -46,11 +46,11 @@ import java.util.List;
         TextView txtTitle = new CustomTextView(context);
     }
 
-/*
-    This function creates and customizes the view for each item of whatever ListView is being
-    created, then returns that view. It has two possible layouts: the one specific for
-    ArticlesListActivity and the one used for all other occurrences.
-*/
+// ###########################################################
+//    This function creates and customizes the view for each item of whatever ListView is being
+//    created, then returns that view. It has two possible layouts: the one specific for
+//    ArticlesListActivity and the one used for all other occurrences.
+// ###########################################################
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         RowItem rowItem = getItem(position);

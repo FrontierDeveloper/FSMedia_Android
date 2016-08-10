@@ -18,15 +18,16 @@ import androidfrontiersci.MainActivity;
 
 import frontsci.android.R;
 
-/*
-    This is ArticleActivity, started from ArticlesListActivity to display a WebView with the
-    selected article.
-    Its layout file is activity_article.xml.
-    Its menu file is article.xml.
-*/
+// ###########################################################
+//    This is ArticleActivity, started from ArticlesListActivity to display a WebView with the
+//    selected article.
+//    Its layout file is activity_article.xml.
+//    Its menu file is article.xml.
+// ###########################################################
 public class ArticleActivity extends ArticlesListActivity {
-
+    // ###########################################################
     // The class' private variable. its WebView
+    // ###########################################################
     private WebView webView;
     private static ArticleProgressDialog progress;
 
@@ -89,10 +90,10 @@ public class ArticleActivity extends ArticlesListActivity {
         super.finish();
     }
 
-/*
-    This is the CustomProgressDialog dialog.
-    Its layout file is dialog_progress.xml.
-*/
+// ###########################################################
+//    This is the CustomProgressDialog dialog.
+//    Its layout file is dialog_progress.xml.
+// ###########################################################
     public class ArticleProgressDialog extends AlertDialog {
 
         public ArticleProgressDialog(Context context) {

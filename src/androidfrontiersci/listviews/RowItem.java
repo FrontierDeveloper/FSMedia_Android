@@ -5,8 +5,8 @@ package androidfrontiersci.listviews;
 import android.graphics.drawable.Drawable;
 
 /*
-    This is the RowItem class, used in every instance of a CustomListViewAdapter. It simply handles
-    the text and image resources for a single item in a ListView.
+//    This is the RowItem class, used in every instance of a CustomListViewAdapter. It simply handles
+//    the text and image resources for a single item in a ListView.
 */
 public class RowItem {
 

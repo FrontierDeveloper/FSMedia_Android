@@ -3,9 +3,6 @@ package androidfrontiersci.Download;
 import android.graphics.Bitmap;
 import java.util.List;
 
-/**
- * Created by jtnewell2 on 8/3/16.
- */
 public class ResearchProject {
     public String title;
     public String description;

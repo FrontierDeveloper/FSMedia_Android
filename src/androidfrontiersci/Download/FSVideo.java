@@ -1,8 +1,5 @@
 package androidfrontiersci.Download;
 
-/**
- * Created by jtnewell2 on 8/3/16.
- */
 public class FSVideo {
     public String youtube;
     public String title;

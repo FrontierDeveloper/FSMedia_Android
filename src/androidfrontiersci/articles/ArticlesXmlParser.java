@@ -30,19 +30,19 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-/*
-    This is the ArticlesXmlParser class, an asynchronous task.
-    It is executed immediately when the Articles section is selected from the main menu. This task
-    parses the xml file at http://frontierscientists.com/feed, extracting from it the ten newest
-    article titles from frontierscientists.com and their corresponding urls. It stores those values
-    in the article_urls map with the titles as the keys and the urls as the values.
-    When complete, it starts the ArticlesListActivity.
-*/
+// ###########################################################
+//    This is the ArticlesXmlParser class, an asynchronous task.
+//    It is executed immediately when the Articles section is selected from the main menu. This task
+//    parses the xml file at http://frontierscientists.com/feed, extracting from it the ten newest
+//    article titles from frontierscientists.com and their corresponding urls. It stores those values
+//    in the article_urls map with the titles as the keys and the urls as the values.
+//    When complete, it starts the ArticlesListActivity.
+// ###########################################################
 public class ArticlesXmlParser extends AsyncTask<Void, Void, Void> {
 
-/*
-    The public variable to be accessed from ArticlesListActivity.java.
-*/
+// ###########################################################
+//    The public variable to be accessed from ArticlesListActivity.java.
+// ###########################################################
     public static Map<String, String> article_urls = new HashMap<String, String>();
 
     // The class' private variables
@@ -51,28 +51,28 @@ public class ArticlesXmlParser extends AsyncTask<Void, Void, Void> {
     private static ArticlesProgressDialog progress;
     Context context;
 
-/*
-    The constructor, setting the correct Context.
-*/
+// ###########################################################
+//    The constructor, setting the correct Context.
+// ###########################################################
     public ArticlesXmlParser(Context context) {
         this.context = context;
     }
 
-/*
-    onPreExecute
-    Before the task begins, show the loading animation to inform the user the articles are loading.
-*/
+// ###########################################################
+//    onPreExecute
+//    Before the task begins, show the loading animation to inform the user the articles are loading.
+// ###########################################################
     @Override
     protected void onPreExecute() {
         progress = new ArticlesProgressDialog(context);
         progress.show();
     }
 
-/*
-    AsyncTask's usual doInBackground() function.
-    It begins by attempting to access the xml file and, upon success, continues by parsing the file,
-    much like seen in XmlParser.java.
-*/
+// ###########################################################
+//    AsyncTask's usual doInBackground() function.
+//    It begins by attempting to access the xml file and, upon success, continues by parsing the file,
+//    much like seen in XmlParser.java.
+// ###########################################################
     @Override
     protected Void doInBackground(Void... params) {
         XmlPullParser receivedData = tryAccessingXML();
@@ -81,9 +81,9 @@ public class ArticlesXmlParser extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
-/*
-    Main content and helper functions:
-*/
+// ###########################################################
+//    Main content and helper functions:
+// ###########################################################
     // tryAccessingXml
     // This function opens the stream with the xml file, initializes the XmlPullParser to be used
     // throughout the parsing process and returns that XmlPullParser.
@@ -164,12 +164,12 @@ public class ArticlesXmlParser extends AsyncTask<Void, Void, Void> {
         return eventType;
     }
 
-/*
-    onPostExecute
-    After the parsing and map building is completed, the old_articles map is populated from the
-    old_articles.txt file, the forArticlesList flag is set to true, the loading animation is hidden
-    and the ArticlesListActivity is started.
-*/
+// ###########################################################
+//  onPostExecute
+//  After the parsing and map building is completed, the old_articles map is populated from the
+//  old_articles.txt file, the forArticlesList flag is set to true, the loading animation is hidden
+//  and the ArticlesListActivity is started.
+// ###########################################################
     @Override
     protected void onPostExecute(Void result) {
         // Populate the old_articles list so that the articles not in the list can be shown as new
