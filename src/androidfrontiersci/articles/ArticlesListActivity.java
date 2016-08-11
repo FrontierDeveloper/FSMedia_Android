@@ -1,5 +1,3 @@
-// ArticlesListActivity.java
-
 package androidfrontiersci.articles;
 
 import android.app.Activity;
@@ -11,20 +9,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import androidfrontiersci.MainActivity;
 import androidfrontiersci.listviews.CustomListViewAdapter;
 import androidfrontiersci.listviews.RowItem;
-
 import frontsci.android.R;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 // ###########################################################
 //    This is ArticlesListActivity, the activity started when the Articles section is selected from
 //    the main menu.
@@ -38,18 +32,15 @@ import java.util.List;
 //    updated with the newly viewed articles.
 // ###########################################################
 public class ArticlesListActivity extends Activity {
-
     // ###########################################################
     // These two variables are accessed in ArticleActivity.java when creating the WebView.
     // ###########################################################
     public static String article_name = "";
     public static String article_url = "";
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_articles_list);
-
         // A new ListView is created to display the article titles.
         ListView Articles = (ListView) findViewById(R.id.articles_listview);
         final List<RowItem> rowItems = new ArrayList<RowItem>();
@@ -59,7 +50,6 @@ public class ArticlesListActivity extends Activity {
         }
         CustomListViewAdapter adapter = new CustomListViewAdapter(getApplicationContext(), R.layout.
                 articles_list_item, rowItems);
-
         Articles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, final int position,
@@ -83,9 +73,6 @@ public class ArticlesListActivity extends Activity {
         });
         Articles.setAdapter(adapter);
 	}
-
-
-
     // When the back key is pressed, the activity is being navigated away from, the forArticlesList
     // flag is set to false and the old_articles.txt file is updated with the newly viewed articles.
     @Override
@@ -100,7 +87,6 @@ public class ArticlesListActivity extends Activity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
 // ###########################################################
 //    Helper functions:
 // ###########################################################
@@ -121,7 +107,6 @@ public class ArticlesListActivity extends Activity {
     // output string for old_articles.txt and writes that string to old_articles.txt.
     private void updateOldArticlesFile() {
         String string = "";
-
         for (String article : MainActivity.old_articles) {
             // If an article on the list isn't among the current articles...
             if (!ArticlesXmlParser.article_urls.keySet().contains(article)) {
@@ -130,7 +115,6 @@ public class ArticlesListActivity extends Activity {
                 string += article+"\n"; // Otherwise, add it to the output string
             }
         }
-
         // Write the output string to the old_articles.txt file
         byte[] data = string.getBytes();
         FileOutputStream outputStream;
@@ -145,5 +129,4 @@ public class ArticlesListActivity extends Activity {
             e.printStackTrace();
         }
     }
-
 }

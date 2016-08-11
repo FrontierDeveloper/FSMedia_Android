@@ -2,7 +2,9 @@ package androidfrontiersci.Download;
 
 import android.graphics.Bitmap;
 import java.util.List;
-
+// ###########################################################
+// This the research project object. It holds all of the information for a research project
+// ###########################################################
 public class ResearchProject {
     public String title;
     public String description;
@@ -11,7 +13,7 @@ public class ResearchProject {
     public Bitmap image;
     public String imagePath;
     public int index = -1;
-
+// ###########################################################
     public ResearchProject(String title_, String description_, List<FSVideo> videos_, FSMapData mapData_, Bitmap image_, String imagePath_) {
         title = title_;
         description = description_;

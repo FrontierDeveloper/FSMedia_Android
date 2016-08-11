@@ -1,5 +1,3 @@
-// AboutActivity.java
-
 package androidfrontiersci.about;
 
 import android.app.Activity;
@@ -20,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import frontsci.android.R;
-
 // ###########################################################
 //    This is AboutActivity, a class that displays the About page in a WebView.
 //    Its layout file is activity_about.xml.
@@ -59,12 +56,9 @@ public class AboutActivity extends Activity {
                 progress.dismiss();
             }
         });
-
         webView.getSettings().setBuiltInZoomControls(true); // Enable zoom.
-
         webView.loadUrl(link);
     }
-
     // While in the WebView, the back button serves the WebView, unless pressed when at origin page,
     // then it ends the activity and goes back to the main menu.
     @Override
@@ -82,13 +76,11 @@ public class AboutActivity extends Activity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
     @Override public void finish() {
         ViewGroup view = (ViewGroup) getWindow().getDecorView();
         view.removeAllViews(); // Avoids window leaking exception.
         super.finish();
     }
-
 // ###########################################################
 //    Action bar functions:
 // ###########################################################
@@ -98,16 +90,13 @@ public class AboutActivity extends Activity {
         getMenuInflater().inflate(R.menu.about, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here.
         int id = item.getItemId();
         if (id == R.id.contact_developers) {
-
             final EditText subject = new EditText(this);
             subject.setHint(getString(R.string.subject_hint));
-
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle("Please enter your message subject.");
             alertDialogBuilder
@@ -124,25 +113,19 @@ public class AboutActivity extends Activity {
                             // if this button is clicked, just close
                             // the dialog box and do nothing
                             dialog.cancel();
-
                             String subject_text = subject.getText().toString();
-
                             Intent intent = new Intent(Intent.ACTION_SEND);
                             intent.setType("message/rfc822");
                             intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.
                                     dev_email)});
                             intent.putExtra(Intent.EXTRA_SUBJECT, email_tag + subject_text);
-
                             try { // If there is an email client on the device...
                                 // the client is opened to allow the user to start the message.
                                 startActivity(Intent.createChooser(intent, "Send mail..."));
                             } catch (android.content.ActivityNotFoundException ex) {
-//                                Toast.makeText(this, "There are no email clients installed.",
-//                                        Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
-
             // create alert dialog
             AlertDialog alertDialog = alertDialogBuilder.create();
             // show it
@@ -151,23 +134,19 @@ public class AboutActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 // ###########################################################
 //        This is the AboutProgressDialog dialog.
 //        Its layout file is dialog_progress.xml.
 // ###########################################################
     public class AboutProgressDialog extends AlertDialog {
-
         public AboutProgressDialog(Context context) {
             super(context);
         }
-
         @Override
         public void show() {
             super.show();
             setContentView(R.layout.dialog_progress);
             ((TextView) findViewById(R.id.text)).setText("Loading About page...");
         }
-
     }
 }

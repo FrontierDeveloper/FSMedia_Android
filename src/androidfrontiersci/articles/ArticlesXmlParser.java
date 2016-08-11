@@ -1,5 +1,3 @@
-// ArticlesXmlParser.java
-
 package androidfrontiersci.articles;
 
 import android.app.AlertDialog;
@@ -9,11 +7,8 @@ import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
-
 import frontsci.android.R;
-
 import androidfrontiersci.MainActivity;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,12 +19,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.commons.lang3.text.WordUtils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
-
 // ###########################################################
 //    This is the ArticlesXmlParser class, an asynchronous task.
 //    It is executed immediately when the Articles section is selected from the main menu. This task
@@ -39,25 +32,21 @@ import org.xmlpull.v1.XmlPullParserFactory;
 //    When complete, it starts the ArticlesListActivity.
 // ###########################################################
 public class ArticlesXmlParser extends AsyncTask<Void, Void, Void> {
-
 // ###########################################################
 //    The public variable to be accessed from ArticlesListActivity.java.
 // ###########################################################
     public static Map<String, String> article_urls = new HashMap<String, String>();
-
     // The class' private variables
     private static final String articles_info_url = "http://frontierscientists.com/feed";
     private static final String TAG = "ArticlesXmlParser";
     private static ArticlesProgressDialog progress;
     Context context;
-
 // ###########################################################
 //    The constructor, setting the correct Context.
 // ###########################################################
     public ArticlesXmlParser(Context context) {
         this.context = context;
     }
-
 // ###########################################################
 //    onPreExecute
 //    Before the task begins, show the loading animation to inform the user the articles are loading.
@@ -67,7 +56,6 @@ public class ArticlesXmlParser extends AsyncTask<Void, Void, Void> {
         progress = new ArticlesProgressDialog(context);
         progress.show();
     }
-
 // ###########################################################
 //    AsyncTask's usual doInBackground() function.
 //    It begins by attempting to access the xml file and, upon success, continues by parsing the file,
@@ -80,7 +68,6 @@ public class ArticlesXmlParser extends AsyncTask<Void, Void, Void> {
         Log.i(TAG, "Parsed");
         return null;
     }
-
 // ###########################################################
 //    Main content and helper functions:
 // ###########################################################
@@ -163,7 +150,6 @@ public class ArticlesXmlParser extends AsyncTask<Void, Void, Void> {
                                                             // word in the title.
         return eventType;
     }
-
 // ###########################################################
 //  onPostExecute
 //  After the parsing and map building is completed, the old_articles map is populated from the
@@ -195,7 +181,6 @@ public class ArticlesXmlParser extends AsyncTask<Void, Void, Void> {
         Intent intent = new Intent(context, ArticlesListActivity.class);
         context.startActivity(intent);
     }
-
     public class ArticlesProgressDialog extends AlertDialog {
 
         public ArticlesProgressDialog(Context context) {
@@ -208,6 +193,5 @@ public class ArticlesXmlParser extends AsyncTask<Void, Void, Void> {
             setContentView(R.layout.dialog_progress);
             ((TextView) findViewById(R.id.text)).setText("Loading articles...");
         }
-
     }
 }

@@ -1,5 +1,3 @@
-// ArticleActivity.java
-
 package androidfrontiersci.articles;
 
 import android.app.AlertDialog;
@@ -13,11 +11,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidfrontiersci.MainActivity;
-
 import frontsci.android.R;
-
 // ###########################################################
 //    This is ArticleActivity, started from ArticlesListActivity to display a WebView with the
 //    selected article.
@@ -30,22 +25,17 @@ public class ArticleActivity extends ArticlesListActivity {
     // ###########################################################
     private WebView webView;
     private static ArticleProgressDialog progress;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_article);
         // Add selected article to articles already seen
         MainActivity.old_articles.add(article_name);
-
         progress = new ArticleProgressDialog(ArticleActivity.this);
         progress.show();
-
         webView = (WebView) findViewById(R.id.web_view);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-
         // This instantiates a new WebViewClient, so as not to require the use of a specific client
         // such as Chrome.
         webView.setWebViewClient(new WebViewClient() {
@@ -57,12 +47,9 @@ public class ArticleActivity extends ArticlesListActivity {
                 progress.dismiss();
             }
         });
-
         webView.getSettings().setBuiltInZoomControls(true); // Enable zoom.
-
         webView.loadUrl(ArticlesListActivity.article_url);
     }
-
     // While in the WebView, the back button serves the WebView, unless pressed when at origin page,
     // then it ends the activity and goes back to the list of articles.
     @Override
@@ -83,23 +70,19 @@ public class ArticleActivity extends ArticlesListActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
     @Override public void finish() {
         ViewGroup view = (ViewGroup) getWindow().getDecorView();
         view.removeAllViews(); // Avoids window leaking exception.
         super.finish();
     }
-
 // ###########################################################
 //    This is the CustomProgressDialog dialog.
 //    Its layout file is dialog_progress.xml.
 // ###########################################################
     public class ArticleProgressDialog extends AlertDialog {
-
         public ArticleProgressDialog(Context context) {
             super(context);
         }
-
         @Override
         public void show() {
             super.show();
