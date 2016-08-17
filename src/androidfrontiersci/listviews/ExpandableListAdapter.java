@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -101,12 +102,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         //  - Items are highlighted when selected
         // Manage Downloads Mode:
         //  - Items do nothing on select (including highlight)
-        convertView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return true; // do nothing on touch.
-                }
-            });
+        convertView.setOnTouchListener(null); // Removes any previous listeners to make this one
+        // primary.
+        VideosListActivity.expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        @Override
+        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        selectVideo(groupPosition, childPosition, layoutInflater);
+        return true;
+        }
+        });
 
         TextView txtListChild = (CustomTextView) convertView.findViewById(R.id.lblListItem);
         txtListChild.setText(childText);
