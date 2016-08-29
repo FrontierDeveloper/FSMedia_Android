@@ -105,11 +105,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         convertView.setOnTouchListener(null); // Removes any previous listeners to make this one
         // primary.
         VideosListActivity.expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-        @Override
-        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-        selectVideo(groupPosition, childPosition, layoutInflater);
-        return true;
-        }
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                selectVideo(groupPosition, childPosition, layoutInflater);
+                return true;
+            }
         });
 
         TextView txtListChild = (CustomTextView) convertView.findViewById(R.id.lblListItem);

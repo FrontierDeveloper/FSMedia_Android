@@ -20,14 +20,20 @@ dependencies {
 }
 
 android {
+    signingConfigs {
+        frontsci {
+            keyAlias 'frontsci'
+            keyPassword 'Front!er_5'
+            storeFile file('/Users/jnewell/Git Repos/Android/keystores/frontsci.jks')
+            storePassword 'Front!er_5'
+        }
+    }
     compileSdkVersion 20
     buildToolsVersion '23.0.2'
-
     packagingOptions {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/LICENSE.txt'
     }
-
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
